@@ -1,0 +1,18 @@
+{
+    "name": "glooby/template-bundle",
+    "license": "proprietary",
+    "type": "symfony-bundle",
+    "description": "template-bundle",
+    "authors": [
+        {
+            "name": "Emil Kilhage",
+            "email": "emil.kilhage@glooby.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Glooby\\TemplateBundle\\": "src/" }
+    },
+    "require": {
+        "php": ">=5.6"
+    }
+}

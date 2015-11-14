@@ -1,0 +1,47 @@
+# .scrutinizer.yml
+checks:
+    php:
+        code_rating: true
+        duplication: true
+        deadlock_detection_in_loops: true
+        remove_extra_empty_lines: true
+        remove_php_closing_tag: true
+        remove_trailing_whitespace: true
+        fix_use_statements:
+            remove_unused: true
+            preserve_multiple: false
+            preserve_blanklines: true
+            order_alphabetically: true
+        fix_php_opening_tag: true
+        fix_linefeed: true
+        fix_line_ending: true
+        fix_identation_4spaces: true
+        fix_doc_comments: true
+
+tools:
+    php_code_coverage: true
+    php_code_sniffer:
+        config: { standard: 'PSR2' }
+    php_changetracking: true
+    php_cpd:
+        enabled: false
+        excluded_dirs: [vendor]
+    php_cs_fixer:
+        config: { level: 'psr2' }
+    php_mess_detector: true
+    php_pdepend: true
+    php_analyzer: true
+    sensiolabs_security_checker: true
+    php_sim: true
+    php_loc:
+        enabled: true
+        excluded_dirs: [vendor]
+
+filter:
+    paths: [ 'src/*' ]
+    excluded_paths: [vendor/*]
+
+application:
+    environment:
+        php:
+            version: 5.6.0

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+wget https://phar.phpunit.de/phpunit.phar
+mv -f phpunit.phar bin/
+chmod +x bin/phpunit.phar
+ln -fs phpunit.phar bin/phpunit
+
+curl -sS https://getcomposer.org/installer | php -- --install-dir=bin
+ln -fs bin/composer composer.phar
+chmod +x bin/composer.phar
+ln -fs composer.phar bin/composer
+
+bin/composer self-update
+
+bin/composer update

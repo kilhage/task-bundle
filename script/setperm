@@ -1,0 +1,7 @@
+#!/bin/bash
+
+find . -type d -exec chmod 0755 {} \;
+find . -type f -exec chmod 0644 {} \;
+
+find script -type f -exec chmod 0744 {} \;
+find bin -type f -exec chmod 0744 {} \;
