@@ -60,31 +60,61 @@ class QueueScheduler
      */
     private function queue(ScheduleInterface $schedule)
     {
-        /** @var QueuedTaskRepository $queueRepo */
-        $queueRepo = $this->doctrine->getManager()
-            ->getRepository('GloobyTaskBundle:QueuedTask');
-
-        $expression = $schedule->parseExpression();
-        $nextExecuteAt = $expression->getNextRunDate();
-        $prevExecuteAt = $expression->getPreviousRunDate();
-        $executeAt = null;
-
-        try {
-            $queueRepo->getByNameAndExecuteAtBeforeNow($schedule->getName());
-        } catch (NoResultException $e) {
-            $executeAt = $prevExecuteAt;
-        }
+        $executeAt = $this->checkPreviousRunDate($schedule);
 
         if (null === $executeAt) {
-            try {
-                $queueRepo->getByNameAndExecuteAt($schedule->getName(), $nextExecuteAt);
-            } catch (NoResultException $e) {
-                $executeAt = $nextExecuteAt;
-            }
+            $executeAt = $this->checkNextRunDate($schedule);
         }
 
         if (null !== $executeAt) {
             $this->taskManager->queue($schedule->getName(), $executeAt, $schedule->getParams());
         }
+    }
+
+    /**
+     * @param ScheduleInterface $schedule
+     * @return \DateTime|null
+     */
+    private function checkNextRunDate(ScheduleInterface $schedule)
+    {
+        /** @var QueuedTaskRepository $queueRepo */
+        $queueRepo = $this->doctrine->getManager()
+            ->getRepository('GloobyTaskBundle:QueuedTask');
+
+        $executeAt = null;
+        $expression = $schedule->parseExpression();
+        $nextExecuteAt = $expression->getNextRunDate();
+
+        try {
+            $queueRepo->getByNameAndExecuteAt($schedule->getName(), $nextExecuteAt);
+        } catch (NoResultException $e) {
+            $executeAt = $nextExecuteAt;
+        }
+
+        return $executeAt;
+    }
+
+    /**
+     * @param ScheduleInterface $schedule
+     * @return \DateTime|null
+     */
+    private function checkPreviousRunDate(ScheduleInterface $schedule)
+    {
+        /** @var QueuedTaskRepository $queueRepo */
+        $queueRepo = $this->doctrine->getManager()
+            ->getRepository('GloobyTaskBundle:QueuedTask');
+
+        $expression = $schedule->parseExpression();
+
+        $executeAt = null;
+
+        try {
+            $queueRepo->getByNameAndExecuteAtBeforeNow($schedule->getName());
+            return $executeAt;
+        } catch (NoResultException $e) {
+            $executeAt = $expression->getPreviousRunDate();
+        }
+
+        return $executeAt;
     }
 }
