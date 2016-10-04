@@ -56,7 +56,7 @@ class QueueProcessor
     /**
      * @param boolean $debug
      */
-    public function setDebug(bool $debug)
+    public function setDebug($debug)
     {
         $this->debug = $debug;
     }
@@ -64,7 +64,7 @@ class QueueProcessor
     /**
      * @param int $limit
      */
-    public function setLimit(int $limit)
+    public function setLimit($limit)
     {
         $this->limit = $limit;
     }
@@ -120,16 +120,25 @@ class QueueProcessor
      */
     private function start(QueuedTaskInterface $queuedTask)
     {
+        $command = $this->createCommand($queuedTask);
+        $process = $this->createProcess($command);
+
+        $this->processes[] = $process;
+
+        if (null !== $this->output) {
+            $this->output->writeln("$command");
+        }
+    }
+
+    /**
+     * @param string $command
+     * @return Process
+     */
+    private function createProcess($command)
+    {
         $that = $this;
-
-        $command = sprintf(
-            'php -d memory_limit=%s app/console task:run --id=%s %s',
-            ini_get('memory_limit'),
-            $queuedTask->getId(),
-            $this->getProcessParams()
-        );
-
         $nl = false;
+
         $process = new Process($command);
         $process->setTimeout(0);
         $process->start(function ($type, $data) use ($that, &$nl) {
@@ -143,10 +152,21 @@ class QueueProcessor
             }
         });
 
-        $this->processes[] = $process;
+        return $process;
+    }
 
-        if (null !== $that->output) {
-            $this->output->writeln("$command");
-        }
+    /**
+     * @param QueuedTaskInterface $queuedTask
+     * @return string
+     */
+    private function createCommand(QueuedTaskInterface $queuedTask)
+    {
+        $command = sprintf(
+            'php -d memory_limit=%s app/console task:run --id=%s %s',
+            ini_get('memory_limit'),
+            $queuedTask->getId(),
+            $this->getProcessParams()
+        );
+        return $command;
     }
 }
