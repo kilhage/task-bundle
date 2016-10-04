@@ -68,7 +68,7 @@ class Schedule implements ScheduleInterface
     /**
      * {@inheritdoc}
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
@@ -76,15 +76,7 @@ class Schedule implements ScheduleInterface
     /**
      * {@inheritdoc}
      */
-    public function setId(int $id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
@@ -92,7 +84,7 @@ class Schedule implements ScheduleInterface
     /**
      * {@inheritdoc}
      */
-    public function setName(string $name)
+    public function setName($name)
     {
         $this->name = $name;
     }
@@ -100,7 +92,7 @@ class Schedule implements ScheduleInterface
     /**
      * {@inheritdoc}
      */
-    public function getCreated(): \DateTime
+    public function getCreated()
     {
         return $this->created;
     }
@@ -108,7 +100,7 @@ class Schedule implements ScheduleInterface
     /**
      * {@inheritdoc}
      */
-    public function setCreated(\DateTime $created)
+    public function setCreated($created)
     {
         $this->created = $created;
     }
@@ -116,7 +108,7 @@ class Schedule implements ScheduleInterface
     /**
      * {@inheritdoc}
      */
-    public function parseExpression(): CronExpression
+    public function parseExpression()
     {
         return CronExpression::factory($this->getRunEvery());
     }
@@ -124,7 +116,7 @@ class Schedule implements ScheduleInterface
     /**
      * {@inheritdoc}
      */
-    public function getRunEvery(): string
+    public function getRunEvery()
     {
         return $this->runEvery;
     }
@@ -132,7 +124,7 @@ class Schedule implements ScheduleInterface
     /**
      * {@inheritdoc}
      */
-    public function setRunEvery(string $runEvery)
+    public function setRunEvery($runEvery)
     {
         $this->runEvery = $runEvery;
     }
@@ -140,7 +132,7 @@ class Schedule implements ScheduleInterface
     /**
      * {@inheritdoc}
      */
-    public function isActive(): bool
+    public function isActive()
     {
         return $this->active;
     }
@@ -148,7 +140,7 @@ class Schedule implements ScheduleInterface
     /**
      * {@inheritdoc}
      */
-    public function setActive(bool $active)
+    public function setActive($active)
     {
         $this->active = $active;
     }
@@ -156,7 +148,7 @@ class Schedule implements ScheduleInterface
     /**
      * {@inheritdoc}
      */
-    public function getTimeout(): int
+    public function getTimeout()
     {
         return $this->timeout;
     }
@@ -164,7 +156,7 @@ class Schedule implements ScheduleInterface
     /**
      * {@inheritdoc}
      */
-    public function setTimeout(int $timeout)
+    public function setTimeout($timeout)
     {
         $this->timeout = $timeout;
     }
@@ -172,7 +164,7 @@ class Schedule implements ScheduleInterface
     /**
      * {@inheritdoc}
      */
-    public function getParams(): array
+    public function getParams()
     {
         return $this->params;
     }
@@ -180,7 +172,7 @@ class Schedule implements ScheduleInterface
     /**
      * {@inheritdoc}
      */
-    public function hasParams(): bool
+    public function hasParams()
     {
         return count($this->params) > 0;
     }
@@ -196,7 +188,7 @@ class Schedule implements ScheduleInterface
     /**
      * {@inheritdoc}
      */
-    public function getVersion(): int
+    public function getVersion()
     {
         return $this->version;
     }
@@ -204,7 +196,7 @@ class Schedule implements ScheduleInterface
     /**
      * {@inheritdoc}
      */
-    public function setVersion(int $version)
+    public function setVersion($version)
     {
         $this->version = $version;
     }

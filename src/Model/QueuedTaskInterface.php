@@ -18,47 +18,27 @@ interface QueuedTaskInterface
     /**
      * @return int
      */
-    public function getId() : int;
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id);
+    public function getId();
 
     /**
      * @return string
      */
-    public function getName() : string;
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name);
+    public function getName();
 
     /**
      * @return \DateTime
      */
-    public function getCreated() : \DateTime;
-
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated(\DateTime $created);
+    public function getCreated();
 
     /**
      * @return \DateTime
      */
-    public function getExecuteAt() : \DateTime;
-
-    /**
-     * @param \DateTime $executeAt
-     */
-    public function setExecuteAt(\DateTime $executeAt);
+    public function getExecuteAt();
 
     /**
      * @return ScheduleInterface
      */
-    public function getSchedule() : ScheduleInterface;
+    public function getSchedule();
 
     /**
      * @param ScheduleInterface $schedule
@@ -68,17 +48,12 @@ interface QueuedTaskInterface
     /**
      * @return array
      */
-    public function getParams() : array;
+    public function getParams();
 
     /**
      * @return bool
      */
-    public function hasParams() : bool;
-
-    /**
-     * @param array $params
-     */
-    public function setParams(array $params = null);
+    public function hasParams();
 
     /**
      * @return string
@@ -86,47 +61,37 @@ interface QueuedTaskInterface
     public function getResult();
 
     /**
-     * @param string $result
-     */
-    public function setResult($result);
-
-    /**
      * @return string
      */
-    public function getResolution() : string;
-
-    /**
-     * @param string $resolution
-     */
-    public function setResolution(string $resolution);
+    public function getResolution();
 
     /**
      * @return \DateTime
      */
-    public function getFinished() : \DateTime;
-
-    /**
-     * @param \DateTime $finished
-     */
-    public function setFinished(\DateTime $finished);
+    public function getFinished();
 
     /**
      * @return string
      */
-    public function getStatus() : string;
-
-    /**
-     * @param string $status
-     */
-    public function setStatus(string $status);
+    public function getStatus();
 
     /**
      * @return \DateTime
      */
-    public function getStarted() : \DateTime;
+    public function getStarted();
 
     /**
-     * @param \DateTime $started
+     *
      */
-    public function setStarted(\DateTime $started);
+    public function start();
+
+    /**
+     * @param mixed $response
+     */
+    public function success($response);
+
+    /**
+     * @param mixed $response
+     */
+    public function failure($response);
 }

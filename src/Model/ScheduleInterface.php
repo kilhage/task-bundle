@@ -12,77 +12,72 @@ interface ScheduleInterface
     /**
      * @return int
      */
-    public function getId() : int;
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id);
+    public function getId();
 
     /**
      * @return string
      */
-    public function getName() : string;
+    public function getName();
 
     /**
      * @param string $name
      */
-    public function setName(string $name);
+    public function setName($name);
 
     /**
      * @return \DateTime
      */
-    public function getCreated() : \DateTime;
+    public function getCreated();
 
     /**
      * @param \DateTime $created
      */
-    public function setCreated(\DateTime $created);
+    public function setCreated($created);
 
     /**
      * @return CronExpression
      */
-    public function parseExpression() : CronExpression;
+    public function parseExpression();
 
     /**
      * @return string
      */
-    public function getRunEvery() : string;
+    public function getRunEvery();
 
     /**
      * @param string $runEvery
      */
-    public function setRunEvery(string $runEvery);
+    public function setRunEvery($runEvery);
 
     /**
      * @return boolean
      */
-    public function isActive() : bool;
+    public function isActive();
 
     /**
      * @param boolean $active
      */
-    public function setActive(bool $active);
+    public function setActive($active);
 
     /**
      * @return int
      */
-    public function getTimeout() : int;
+    public function getTimeout();
 
     /**
      * @param int $timeout
      */
-    public function setTimeout(int $timeout);
+    public function setTimeout($timeout);
 
     /**
      * @return array
      */
-    public function getParams() : array;
+    public function getParams();
 
     /**
      * @return bool
      */
-    public function hasParams() : bool;
+    public function hasParams();
 
     /**
      * @param array $params
@@ -92,10 +87,10 @@ interface ScheduleInterface
     /**
      * @return int
      */
-    public function getVersion() : int;
+    public function getVersion();
 
     /**
      * @param int $version
      */
-    public function setVersion(int $version);
+    public function setVersion($version);
 }

@@ -64,16 +64,24 @@ class QueuedTask implements QueuedTaskInterface
 
     /**
      * QueuedTask constructor.
+     * @param string $name
+     * @param array $params
+     * @param \DateTime $executeAt
      */
-    public function __construct()
+    public function __construct($name, array $params = null, \DateTime $executeAt = null)
     {
+        $this->name = $name;
+        $this->params = null === $params ? $params : [];
+        $this->executeAt = null === $executeAt ? new \DateTime() : $executeAt;
         $this->created = new \DateTime();
+        $this->status = self::STATUS_PENDING;
+        $this->resolution = self::RESOLUTION_PENDING;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
@@ -81,15 +89,7 @@ class QueuedTask implements QueuedTaskInterface
     /**
      * {@inheritdoc}
      */
-    public function setId(int $id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
@@ -97,15 +97,7 @@ class QueuedTask implements QueuedTaskInterface
     /**
      * {@inheritdoc}
      */
-    public function setName(string $name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCreated(): \DateTime
+    public function getCreated()
     {
         return $this->created;
     }
@@ -113,25 +105,9 @@ class QueuedTask implements QueuedTaskInterface
     /**
      * {@inheritdoc}
      */
-    public function setCreated(\DateTime $created)
-    {
-        $this->created = $created;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getExecuteAt(): \DateTime
+    public function getExecuteAt()
     {
         return $this->executeAt;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setExecuteAt(\DateTime $executeAt)
-    {
-        $this->executeAt = $executeAt;
     }
 
     /**
@@ -153,7 +129,7 @@ class QueuedTask implements QueuedTaskInterface
     /**
      * {@inheritdoc}
      */
-    public function getParams(): array
+    public function getParams()
     {
         return $this->params;
     }
@@ -161,17 +137,9 @@ class QueuedTask implements QueuedTaskInterface
     /**
      * {@inheritdoc}
      */
-    public function hasParams(): bool
+    public function hasParams()
     {
         return count($this->params) > 0;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setParams(array $params = null)
-    {
-        $this->params = $params;
     }
 
     /**
@@ -185,15 +153,7 @@ class QueuedTask implements QueuedTaskInterface
     /**
      * {@inheritdoc}
      */
-    public function setResult($result)
-    {
-        $this->result = $result;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getResolution(): string
+    public function getResolution()
     {
         return $this->resolution;
     }
@@ -201,15 +161,7 @@ class QueuedTask implements QueuedTaskInterface
     /**
      * {@inheritdoc}
      */
-    public function setResolution(string $resolution)
-    {
-        $this->resolution = $resolution;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFinished(): \DateTime
+    public function getFinished()
     {
         return $this->finished;
     }
@@ -217,15 +169,7 @@ class QueuedTask implements QueuedTaskInterface
     /**
      * {@inheritdoc}
      */
-    public function setFinished(\DateTime $finished)
-    {
-        $this->finished = $finished;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getStatus(): string
+    public function getStatus()
     {
         return $this->status;
     }
@@ -233,24 +177,88 @@ class QueuedTask implements QueuedTaskInterface
     /**
      * {@inheritdoc}
      */
-    public function setStatus(string $status)
-    {
-        $this->status = $status;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getStarted(): \DateTime
+    public function getStarted()
     {
         return $this->started;
     }
 
     /**
-     * {@inheritdoc}
+     * @param \DateTime $started
      */
-    public function setStarted(\DateTime $started)
+    protected function setStarted(\DateTime $started)
     {
         $this->started = $started;
+    }
+
+    /**
+     * @param \DateTime $finished
+     */
+    protected function setFinished(\DateTime $finished)
+    {
+        $this->finished = $finished;
+    }
+
+    /**
+     * @param string $status
+     */
+    protected function setStatus(string $status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @param string $resolution
+     */
+    protected function setResolution(string $resolution)
+    {
+        $this->resolution = $resolution;
+    }
+
+    /**
+     * @param \DateTime $result
+     */
+    protected function setResult(\DateTime $result)
+    {
+        $this->result = $result;
+    }
+
+    /**
+     * @param string $resolution
+     * @param mixed $response
+     */
+    protected function resolve($resolution, $response)
+    {
+        if (!empty($response)) {
+            $this->setResult(print_r($response, true));
+        }
+
+        $this->setStatus(QueuedTaskInterface::STATUS_DONE);
+        $this->setResolution($resolution);
+        $this->setFinished(new \DateTime());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function start()
+    {
+        $this->setStatus(QueuedTaskInterface::STATUS_RUNNING);
+        $this->setStarted(new \DateTime());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function success($response)
+    {
+        $this->resolve(QueuedTaskInterface::RESOLUTION_SUCCESS, $response);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function failure($response)
+    {
+        $this->resolve(QueuedTaskInterface::RESOLUTION_FAILURE, $response);
     }
 }

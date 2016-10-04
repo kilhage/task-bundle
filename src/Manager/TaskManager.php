@@ -5,6 +5,7 @@ namespace Glooby\TaskBundle\Manager;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\NoResultException;
 use Glooby\TaskBundle\Entity\QueuedTask;
+use Glooby\TaskBundle\Model\QueuedTaskInterface;
 
 /**
  * @author Emil Kilhage
@@ -28,55 +29,68 @@ class TaskManager
      * @param string $service
      * @param \DateTime|null $executeAt
      * @param array|null $params
-     * @return QueuedTask
+     * @return QueuedTaskInterface
      */
-    public function queue(string $service, \DateTime $executeAt = null, array $params = null): QueuedTask
+    public function queue(string $service, \DateTime $executeAt = null, array $params = null)
     {
-        $run = new QueuedTask();
-        $run->setName($service);
-        $run->setParams($params);
-        $run->setStatus(QueuedTask::STATUS_PENDING);
-        $run->setExecuteAt(null === $executeAt ? new \DateTime() : $executeAt);
-
-        try {
-            $schedule = $this->doctrine->getManager()
-                ->getRepository('GloobyTaskBundle:Schedule')
-                ->findByName($service);
-
-            $run->setSchedule($schedule);
-        } catch (NoResultException $e) {
-
-        }
-
+        $run = new QueuedTask($service, $params, $executeAt);
+        $this->populateSchedule($run, $service);
         $this->doctrine->getManager()->persist($run);
-
         return $run;
     }
 
     /**
-     * @param QueuedTask $run
+     * @param QueuedTaskInterface $run
      */
-    public function start(QueuedTask $run)
+    public function start(QueuedTaskInterface $run)
     {
-        $run->setStatus(QueuedTask::STATUS_RUNNING);
-        $run->setStarted(new \DateTime());
+        $run->start();
         $this->doctrine->getManager()->flush();
     }
 
     /**
      * @param string $service
      * @param array $params
-     * @return QueuedTask
+     * @return QueuedTaskInterface
      */
-    public function run(string $service, array $params = null): QueuedTask
+    public function run(string $service, array $params = null)
     {
-        $run = new QueuedTask();
-        $run->setName($service);
-        $run->setParams($params);
-        $run->setStatus(QueuedTask::STATUS_RUNNING);
-        $run->setExecuteAt(new \DateTime());
-        $run->setStarted(new \DateTime());
+        $run = new QueuedTask($service, $params);
+        $run->start();
+        $this->populateSchedule($run, $service);
 
+        $this->doctrine->getManager()->persist($run);
+        $this->doctrine->getManager()->flush();
+
+        return $run;
+    }
+
+    /**
+     * @param QueuedTaskInterface $run
+     * @param $response
+     */
+    public function success(QueuedTaskInterface $run, $response)
+    {
+        $run->success($response);
+        $this->doctrine->getManager()->flush();
+    }
+
+    /**
+     * @param QueuedTaskInterface $run
+     * @param $response
+     */
+    public function failure(QueuedTaskInterface $run, $response)
+    {
+        $run->failure($response);
+        $this->doctrine->getManager()->flush();
+    }
+
+    /**
+     * @param QueuedTaskInterface $run
+     * @param string $service
+     */
+    private function populateSchedule(QueuedTaskInterface $run, $service)
+    {
         try {
             $schedule = $this->doctrine->getManager()
                 ->getRepository('GloobyTaskBundle:Schedule')
@@ -86,44 +100,5 @@ class TaskManager
         } catch (NoResultException $e) {
 
         }
-
-        $this->doctrine->getManager()->persist($run);
-        $this->doctrine->getManager()->flush();
-
-        return $run;
-    }
-
-    /**
-     * @param QueuedTask $run
-     * @param $response
-     */
-    public function success(QueuedTask $run, $response)
-    {
-        if (!empty($response)) {
-            $run->setResult(print_r($response, true));
-        }
-
-        $run->setStatus(QueuedTask::STATUS_DONE);
-        $run->setResolution(QueuedTask::RESOLUTION_SUCCESS);
-        $run->setFinished(new \DateTime());
-
-        $this->doctrine->getManager()->flush();
-    }
-
-    /**
-     * @param QueuedTask $run
-     * @param $response
-     */
-    public function failure(QueuedTask $run, $response)
-    {
-        if (!empty($response)) {
-            $run->setResult(print_r($response, true));
-        }
-
-        $run->setStatus(QueuedTask::STATUS_DONE);
-        $run->setResolution(QueuedTask::RESOLUTION_FAILURE);
-        $run->setFinished(new \DateTime());
-
-        $this->doctrine->getManager()->flush();
     }
 }
