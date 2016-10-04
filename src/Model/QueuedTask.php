@@ -215,9 +215,9 @@ class QueuedTask implements QueuedTaskInterface
     }
 
     /**
-     * @param \DateTime $result
+     * @param string $result
      */
-    protected function setResult(\DateTime $result)
+    protected function setResult($result)
     {
         $this->result = $result;
     }
