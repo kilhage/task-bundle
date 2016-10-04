@@ -104,9 +104,8 @@ class QueueScheduler
         $queueRepo = $this->doctrine->getManager()
             ->getRepository('GloobyTaskBundle:QueuedTask');
 
-        $expression = $schedule->parseExpression();
-
         $executeAt = null;
+        $expression = $schedule->parseExpression();
 
         try {
             $queueRepo->getByNameAndExecuteAtBeforeNow($schedule->getName());
