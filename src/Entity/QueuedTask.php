@@ -87,14 +87,14 @@ class QueuedTask extends \Glooby\TaskBundle\Model\QueuedTask
     /**
      * @var string
      *
-     * @ORM\Column(name="status", type="string", options={"default": "pending"})
+     * @ORM\Column(name="status", type="string", options={"default": "queued"})
      */
-    protected $status = self::STATUS_PENDING;
+    protected $status = self::STATUS_QUEUED;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="resolution", type="string", options={"default": "pending"})
+     * @ORM\Column(name="resolution", type="string", options={"default": "queued"})
      */
-    protected $resolution = self::RESOLUTION_PENDING;
+    protected $resolution = self::RESOLUTION_QUEUED;
 }

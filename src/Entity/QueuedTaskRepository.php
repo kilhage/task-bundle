@@ -48,14 +48,14 @@ class QueuedTaskRepository extends EntityRepository
      * @param int $limit
      * @return QueuedTaskInterface[]
      */
-    public function findPending($limit)
+    public function findQueued($limit)
     {
         return $this->getEntityManager()
             ->createQuery('SELECT r
               FROM GloobyTaskBundle:QueuedTask r
               WHERE r.status = :status AND r.executeAt <= :now
               ORDER BY r.executeAt ASC')
-            ->setParameter('status', QueuedTaskInterface::STATUS_PENDING)
+            ->setParameter('status', QueuedTaskInterface::STATUS_QUEUED)
             ->setParameter('now', new \DateTime())
             ->setMaxResults($limit)
             ->useQueryCache(true)

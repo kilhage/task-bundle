@@ -77,7 +77,7 @@ class QueueProcessor
         $queueRepo = $this->doctrine->getManager()
             ->getRepository('GloobyTaskBundle:QueuedTask');
 
-        foreach ($queueRepo->findPending($this->limit) as $queuedTask) {
+        foreach ($queueRepo->findQueued($this->limit) as $queuedTask) {
             $this->start($queuedTask);
         }
 

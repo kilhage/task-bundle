@@ -7,11 +7,11 @@ namespace Glooby\TaskBundle\Model;
  */
 interface QueuedTaskInterface
 {
-    const STATUS_PENDING = 'pending';
+    const STATUS_QUEUED = 'queued';
     const STATUS_RUNNING = 'running';
     const STATUS_DONE    = 'done';
 
-    const RESOLUTION_PENDING = 'pending';
+    const RESOLUTION_QUEUED = 'queued';
     const RESOLUTION_SUCCESS = 'success';
     const RESOLUTION_FAILURE = 'failure';
 

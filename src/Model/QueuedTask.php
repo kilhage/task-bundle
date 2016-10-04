@@ -55,12 +55,12 @@ class QueuedTask implements QueuedTaskInterface
     /**
      * @var string
      */
-    protected $status = self::STATUS_PENDING;
+    protected $status = self::STATUS_QUEUED;
 
     /**
      * @var string
      */
-    protected $resolution = self::RESOLUTION_PENDING;
+    protected $resolution = self::RESOLUTION_QUEUED;
 
     /**
      * QueuedTask constructor.
@@ -74,8 +74,8 @@ class QueuedTask implements QueuedTaskInterface
         $this->params = null === $params ? $params : [];
         $this->executeAt = null === $executeAt ? new \DateTime() : $executeAt;
         $this->created = new \DateTime();
-        $this->status = self::STATUS_PENDING;
-        $this->resolution = self::RESOLUTION_PENDING;
+        $this->status = self::STATUS_QUEUED;
+        $this->resolution = self::RESOLUTION_QUEUED;
     }
 
     /**
