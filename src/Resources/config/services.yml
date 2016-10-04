@@ -1,0 +1,52 @@
+parameters:
+    glooby_task.queue_processor.limit: 10
+
+services:
+    glooby_task.ping:
+        class: Glooby\TaskBundle\Task\PingTask
+        tags:
+            - { name: glooby.scheduled_task }
+
+    glooby_task.schedule_registry:
+        class: Glooby\TaskBundle\Schedule\ScheduleRegistry
+        calls:
+            - [setReader,    ['@annotations.reader']]
+            - [setContainer, ['@service_container']]
+
+    glooby_task.schedule_synchronizer:
+        class: Glooby\TaskBundle\Synchronizer\ScheduleSynchronizer
+        calls:
+            - [setDoctrine,         ['@doctrine']]
+            - [setScheduleRegistry, ['@glooby_task.schedule_registry']]
+
+    glooby_task.task_manager:
+        class: Glooby\TaskBundle\Manager\TaskManager
+        calls:
+            - [setDoctrine,         ['@doctrine']]
+
+    glooby_task.task_runner:
+        class: Glooby\TaskBundle\Task\TaskRunner
+        calls:
+            - [setLogger,       ['@logger']]
+            - [setContainer,    ['@service_container']]
+            - [setTaskManager,  ['@glooby_task.task_manager']]
+
+    glooby_task.queue_pruner:
+        class: Glooby\TaskBundle\Queue\QueuePruner
+        calls:
+            - [setDoctrine,         ['@doctrine']]
+        tags:
+            - { name: glooby.scheduled_task }
+
+    glooby_task.queue_scheduler:
+        class: Glooby\TaskBundle\Queue\QueueScheduler
+        calls:
+            - [setDoctrine,    ['@doctrine']]
+            - [setTaskManager, ['@glooby_task.task_manager']]
+
+    glooby_task.queue_processor:
+        class: Glooby\TaskBundle\Queue\QueueProcessor
+        calls:
+            - [setDoctrine,     ['@doctrine']]
+            - [setLimit,        ['%glooby_task.queue_processor.limit%']]
+            - [setDebug,        ['%kernel.debug%']]

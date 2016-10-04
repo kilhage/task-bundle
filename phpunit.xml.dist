@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!-- http://phpunit.de/manual/4.1/en/appendixes.configuration.html -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.1/phpunit.xsd"
          backupGlobals="false"
@@ -12,14 +10,17 @@
          processIsolation            = "false"
          stopOnFailure               = "false"
          syntaxCheck                 = "false"
-         bootstrap="vendor/autoload.php"
->
+         bootstrap="vendor/autoload.php">
 
     <testsuites>
-        <testsuite name="Template Bundle Test Suite">
-            <directory>../src/*/Tests</directory>
+        <testsuite name="Glooby Debug Bundle Test Suite">
+            <directory>src/*/Tests</directory>
         </testsuite>
     </testsuites>
+
+    <logging>
+        <log type="coverage-php" target="clover.cov"/>
+    </logging>
 
     <filter>
         <whitelist>
