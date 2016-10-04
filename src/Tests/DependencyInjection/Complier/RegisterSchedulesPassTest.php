@@ -51,8 +51,6 @@ class RegisterSchedulesPassTest extends \PHPUnit_Framework_TestCase
 
         $container->setDefinition('task.foo.f', $definition);
 
-        $this->setExpectedException('\InvalidArgumentException');
-
         $pass->process($container);
     }
 
