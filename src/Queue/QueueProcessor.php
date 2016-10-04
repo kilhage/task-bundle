@@ -3,7 +3,7 @@
 namespace Glooby\TaskBundle\Queue;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Glooby\TaskBundle\Entity\QueuedTask;
+use Glooby\TaskBundle\Model\QueuedTaskInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
@@ -77,35 +77,8 @@ class QueueProcessor
         $queueRepo = $this->doctrine->getManager()
             ->getRepository('GloobyTaskBundle:QueuedTask');
 
-        $that = $this;
-
         foreach ($queueRepo->findPending($this->limit) as $queuedTask) {
-            $command = sprintf(
-                'php -d memory_limit=%s app/console task:run --id=%s %s',
-                ini_get('memory_limit'),
-                $queuedTask->getId(),
-                $this->getProcessParams()
-            );
-
-            $nl = false;
-            $process = new Process($command);
-            $process->setTimeout(0);
-            $process->start(function ($type, $data) use ($that, &$nl) {
-                if (null !== $that->output) {
-                    if ($nl) {
-                        $nl = false;
-                        $that->output->write("\n");
-                    }
-
-                    $that->output->write($data);
-                }
-            });
-
-            $this->processes[] = $process;
-
-            if (null !== $that->output) {
-                $this->output->writeln("$command");
-            }
+            $this->start($queuedTask);
         }
 
         $this->wait();
@@ -139,6 +112,41 @@ class QueueProcessor
                     echo $process->getOutput();
                 }
             }
+        }
+    }
+
+    /**
+     * @param QueuedTaskInterface $queuedTask
+     */
+    private function start(QueuedTaskInterface $queuedTask)
+    {
+        $that = $this;
+
+        $command = sprintf(
+            'php -d memory_limit=%s app/console task:run --id=%s %s',
+            ini_get('memory_limit'),
+            $queuedTask->getId(),
+            $this->getProcessParams()
+        );
+
+        $nl = false;
+        $process = new Process($command);
+        $process->setTimeout(0);
+        $process->start(function ($type, $data) use ($that, &$nl) {
+            if (null !== $that->output) {
+                if ($nl) {
+                    $nl = false;
+                    $that->output->write("\n");
+                }
+
+                $that->output->write($data);
+            }
+        });
+
+        $this->processes[] = $process;
+
+        if (null !== $that->output) {
+            $this->output->writeln("$command");
         }
     }
 }
