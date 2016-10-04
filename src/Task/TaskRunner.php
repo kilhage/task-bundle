@@ -4,6 +4,7 @@ namespace Glooby\TaskBundle\Task;
 
 use Glooby\TaskBundle\Entity\QueuedTask;
 use Glooby\TaskBundle\Manager\TaskManager;
+use Glooby\TaskBundle\Model\QueuedTaskInterface;
 use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
@@ -43,36 +44,21 @@ class TaskRunner
     }
 
     /**
-     * @param QueuedTask $queuedTask
+     * @param QueuedTask $run
      * @return array
      * @throws \Exception
      */
-    public function run(QueuedTask $queuedTask)
+    public function run(QueuedTask $run)
     {
-        $task = $this->container->get($queuedTask->getName());
+        $task = $this->container->get($run->getName());
 
         if (!($task instanceof TaskInterface)) {
-            throw new \InvalidArgumentException($queuedTask->getName().' does not implement TaskInterface');
+            throw new \InvalidArgumentException($run->getName().' does not implement TaskInterface');
         }
 
-        $this->taskManager->start($queuedTask);
+        $this->taskManager->start($run);
 
-        try {
-            if ($queuedTask->hasParams()) {
-                $response = $task->run($queuedTask->getParams());
-            } else {
-                $response = $task->run();
-            }
-
-            $this->logger->debug("$response");
-            $this->taskManager->success($queuedTask, $response);
-        } catch (\Exception $e) {
-            $this->logger->error("$e");
-            $this->taskManager->failure($queuedTask, "$e");
-            throw $e;
-        }
-
-        return $response;
+        return $this->execute($task, $run->getParams(), $run);
     }
 
     /**
@@ -91,6 +77,18 @@ class TaskRunner
 
         $run = $this->taskManager->run($name, $params);
 
+        return $this->execute($task, $params, $run);
+    }
+
+    /**
+     * @param TaskInterface $task
+     * @param array $params
+     * @param QueuedTaskInterface $run
+     * @return mixed
+     * @throws \Exception
+     */
+    protected function execute(TaskInterface $task, array $params, QueuedTaskInterface $run)
+    {
         try {
             if (count($params) > 0) {
                 $response = $task->run($params);

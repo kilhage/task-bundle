@@ -3,6 +3,7 @@
 namespace Glooby\TaskBundle\Command\Task;
 
 use Doctrine\ORM\NoResultException;
+use Glooby\TaskBundle\Task\TaskRunner;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,17 +35,7 @@ class RunCommand extends ContainerAwareCommand
         $runner->setOutput($output);
 
         if ($input->getOption('id')) {
-            $task = $this->getContainer()
-                ->get('doctrine')
-                ->getManager()
-                ->getRepository('GloobyTaskBundle:QueuedTask')
-                ->find($input->getOption('id'));
-
-            if (null === $task) {
-                throw new NoResultException();
-            }
-
-            $runner->run($task);
+            $this->runId($input, $runner);
         } else {
             $response = $runner->runTask($input->getArgument('service'));
 
@@ -52,5 +43,25 @@ class RunCommand extends ContainerAwareCommand
                 $output->writeln($response);
             }
         }
+    }
+
+    /**
+     * @param InputInterface $input
+     * @param TaskRunner $runner
+     * @throws NoResultException
+     */
+    protected function runId(InputInterface $input, TaskRunner $runner)
+    {
+        $task = $this->getContainer()
+            ->get('doctrine')
+            ->getManager()
+            ->getRepository('GloobyTaskBundle:QueuedTask')
+            ->find($input->getOption('id'));
+
+        if (null === $task) {
+            throw new NoResultException();
+        }
+
+        $runner->run($task);
     }
 }

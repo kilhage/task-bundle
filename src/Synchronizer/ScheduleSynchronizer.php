@@ -64,18 +64,7 @@ class ScheduleSynchronizer
         $schedules = $this->scheduleRegistry->getSchedules();
 
         foreach ($schedules as $id => $def) {
-            try {
-                /** @var Schedule $schedule */
-                $schedule = $repo->findByName($id);
-
-                if ($this->force || $schedule->getVersion() !== $def->version) {
-                    $this->update($schedule, $id, $def);
-                }
-            } catch (\Exception $e) {
-                $schedule = new Schedule();
-                $this->update($schedule, $id, $def);
-                $this->doctrine->getManager()->persist($schedule);
-            }
+            $this->syncSchedule($id, $def);
         }
 
         foreach ($repo->findNotInNames(array_keys($schedules)) as $schedule) {
@@ -98,5 +87,39 @@ class ScheduleSynchronizer
         $schedule->setTimeout($def->timeout);
         $schedule->setParams($def->params);
         $schedule->setVersion($def->version);
+    }
+
+    /**
+     * @param string $id
+     * @param Def $def
+     * @return array
+     */
+    private function syncSchedule($id, Def $def)
+    {
+        /** @var ScheduleRepository $repo */
+        $repo = $this->doctrine->getManager()
+            ->getRepository('GloobyTaskBundle:Schedule');
+
+        try {
+            /** @var Schedule $schedule */
+            $schedule = $repo->findByName($id);
+
+            if ($this->force || $schedule->getVersion() !== $def->version) {
+                $this->update($schedule, $id, $def);
+            }
+        } catch (\Exception $e) {
+            $this->create($id, $def);
+        }
+    }
+
+    /**
+     * @param string $id
+     * @param Def $def
+     */
+    private function create($id, Def $def)
+    {
+        $schedule = new Schedule();
+        $this->update($schedule, $id, $def);
+        $this->doctrine->getManager()->persist($schedule);
     }
 }
