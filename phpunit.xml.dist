@@ -13,7 +13,7 @@
          bootstrap="vendor/autoload.php">
 
     <testsuites>
-        <testsuite name="Glooby Debug Bundle Test Suite">
+        <testsuite name="Glooby Task Bundle Test Suite">
             <directory>src/Tests</directory>
         </testsuite>
     </testsuites>

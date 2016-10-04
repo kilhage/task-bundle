@@ -33,4 +33,4 @@ License
 This bundle is released under the MIT license. See the complete license in the
 bundle:
 
-    [LICENSE.md](https://github.com/glooby/task-bundle/blob/master/LICENSE.md)
+[LICENSE.md](https://github.com/glooby/task-bundle/blob/master/LICENSE.md)
