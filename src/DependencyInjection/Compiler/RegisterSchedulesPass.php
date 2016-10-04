@@ -55,12 +55,14 @@ class RegisterSchedulesPass implements CompilerPassInterface
      */
     protected function validateClass($class, $taskId)
     {
-        if (!class_exists($class)) {
-            throw new \InvalidArgumentException('Invalid class: ' . $class);
-        }
+        if (!empty($class)) {
+            if (!class_exists($class)) {
+                throw new \InvalidArgumentException('Invalid class: ' . $class.', task: '.$taskId);
+            }
 
-        if ($class && !$this->isTaskImplementation($class)) {
-            throw new \InvalidArgumentException(sprintf('schedule "%s" with class "%s" must implement TaskInterface.', $taskId, $class));
+            if (!$this->isTaskImplementation($class)) {
+                throw new \InvalidArgumentException(sprintf('schedule "%s" with class "%s" must implement TaskInterface.', $taskId, $class));
+            }
         }
     }
 
