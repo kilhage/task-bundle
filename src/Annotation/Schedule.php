@@ -1,6 +1,7 @@
 <?php
 
 namespace Glooby\TaskBundle\Annotation;
+
 use Cron\CronExpression;
 
 /**
@@ -51,22 +52,55 @@ class Schedule
 
     /**
      * @param array $options
+     * @throws \InvalidArgumentException
      */
     public function __construct(array $options)
     {
-        if (isset($options['value'])) {
-            $options['runEvery'] = $options['value'];
-            unset($options['value']);
-        }
+        $options = $this->setDefault($options);
+        $options = $this->ensureExpressionExist($options);
+        $options = $this->mapExpression($options);
 
-        if (empty($options['runEvery'])) {
-            throw new \InvalidArgumentException('Missing property runEvery');
-        }
+        $this->populate($options);
 
-        if (isset(self::$map[$options['runEvery']])) {
-            $options['runEvery'] = self::$map[$options['runEvery']];
-        }
+        $this->validateExpression();
+        $this->validateTimeout();
+        $this->validateParams();
+    }
 
+    /**
+     * @throws \InvalidArgumentException
+     */
+    public function validateTimeout()
+    {
+        if (isset($this->timeout) && !is_numeric($this->timeout)) {
+            throw new \InvalidArgumentException('Property "timeout" must be an int');
+        }
+    }
+
+    /**
+     * @throws \InvalidArgumentException
+     */
+    public function validateParams():void
+    {
+        if (!is_array($this->params)) {
+            throw new \InvalidArgumentException('Property "params" must be an array');
+        }
+    }
+
+    /**
+     * @throws \InvalidArgumentException
+     */
+    public function validateExpression()
+    {
+        CronExpression::factory($this->runEvery);
+    }
+
+    /**
+     * @param array $options
+     * @throws \InvalidArgumentException
+     */
+    public function populate(array $options)
+    {
         foreach ($options as $key => $value) {
             if (!property_exists($this, $key)) {
                 throw new \InvalidArgumentException(sprintf('Property "%s" does not exist', $key));
@@ -74,15 +108,45 @@ class Schedule
 
             $this->$key = $value;
         }
+    }
 
-        CronExpression::factory($this->runEvery);
-
-        if (isset($this->timeout) && !is_numeric($this->timeout)) {
-            throw new \InvalidArgumentException('Property "timeout" must be an int');
+    /**
+     * @param array $options
+     * @return array
+     */
+    public function mapExpression(array $options)
+    {
+        if (isset(self::$map[$options['runEvery']])) {
+            $options['runEvery'] = self::$map[$options['runEvery']];
         }
 
-        if (!is_array($this->params)) {
-            throw new \InvalidArgumentException('Property "params" must be an array');
+        return $options;
+    }
+
+    /**
+     * @param array $options
+     * @return array
+     */
+    public function setDefault(array $options)
+    {
+        if (isset($options['value'])) {
+            $options['runEvery'] = $options['value'];
+            unset($options['value']);
         }
+
+        return $options;
+    }
+
+    /**
+     * @param array $options
+     * @throws \InvalidArgumentException
+     * @return array
+     */
+    public function ensureExpressionExist(array $options)
+    {
+        if (empty($options['runEvery'])) {
+            throw new \InvalidArgumentException('Missing property runEvery');
+        }
+        return $options;
     }
 }
