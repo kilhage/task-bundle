@@ -39,7 +39,9 @@ tools:
 
 filter:
     paths: [ 'src/*' ]
-    excluded_paths: [vendor/*]
+    excluded_paths:
+        - vendor/*
+        - src/Tests/*
 
 application:
     environment:
