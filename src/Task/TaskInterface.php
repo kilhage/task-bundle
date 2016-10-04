@@ -10,7 +10,7 @@ interface TaskInterface
     /**
      * @param array $params
      *
-     * @return array
+     * @return mixed
      */
     public function run(array $params = []);
 }

@@ -48,7 +48,7 @@ class QueuedTask implements QueuedTaskInterface
     protected $finished;
 
     /**
-     * @var \DateTime
+     * @var string
      */
     protected $result;
 

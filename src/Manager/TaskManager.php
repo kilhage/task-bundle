@@ -5,6 +5,7 @@ namespace Glooby\TaskBundle\Manager;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\NoResultException;
 use Glooby\TaskBundle\Entity\QueuedTask;
+use Glooby\TaskBundle\Entity\ScheduleRepository;
 use Glooby\TaskBundle\Model\QueuedTaskInterface;
 
 /**
@@ -92,13 +93,13 @@ class TaskManager
     private function populateSchedule(QueuedTaskInterface $run, $service)
     {
         try {
-            $schedule = $this->doctrine->getManager()
-                ->getRepository('GloobyTaskBundle:Schedule')
-                ->findByName($service);
-
+            /** @var ScheduleRepository $repo */
+            $repo = $this->doctrine->getManager()
+                ->getRepository('GloobyTaskBundle:Schedule');
+            $schedule = $repo->findByName($service);
             $run->setSchedule($schedule);
         } catch (NoResultException $e) {
-
+            // ignore if not found
         }
     }
 }
