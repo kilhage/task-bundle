@@ -15,7 +15,7 @@ class QueuedTaskRepository extends EntityRepository
      * @param \DateTime $executeAt
      * @return QueuedTaskInterface
      */
-    public function getByNameAndExecuteAt(string $name, \DateTime $executeAt): QueuedTaskInterface
+    public function getByNameAndExecuteAt($name, \DateTime $executeAt)
     {
         return $this->getEntityManager()
             ->createQuery('SELECT r
@@ -31,7 +31,7 @@ class QueuedTaskRepository extends EntityRepository
      * @param string $name
      * @return QueuedTaskInterface
      */
-    public function getByNameAndExecuteAtBeforeNow(string $name): QueuedTaskInterface
+    public function getByNameAndExecuteAtBeforeNow($name)
     {
         return $this->getEntityManager()
             ->createQuery('SELECT r
@@ -48,7 +48,7 @@ class QueuedTaskRepository extends EntityRepository
      * @param int $limit
      * @return QueuedTaskInterface[]
      */
-    public function findPending(int $limit): array
+    public function findPending($limit)
     {
         return $this->getEntityManager()
             ->createQuery('SELECT r

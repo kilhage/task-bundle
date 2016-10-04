@@ -39,7 +39,7 @@ class ScheduleSynchronizer
     /**
      * @param boolean $force
      */
-    public function setForce(bool $force)
+    public function setForce($force)
     {
         $this->force = $force;
     }
@@ -90,7 +90,7 @@ class ScheduleSynchronizer
      * @param string $id
      * @param Def $def
      */
-    private function update(Schedule $schedule, string $id, Def $def)
+    private function update(Schedule $schedule, $id, Def $def)
     {
         $schedule->setName($id);
         $schedule->setActive($def->active);

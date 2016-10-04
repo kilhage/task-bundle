@@ -80,7 +80,7 @@ class Schedule
     /**
      * @throws \InvalidArgumentException
      */
-    public function validateParams():void
+    public function validateParams()
     {
         if (!is_array($this->params)) {
             throw new \InvalidArgumentException('Property "params" must be an array');

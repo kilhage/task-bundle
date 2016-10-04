@@ -81,7 +81,7 @@ class TaskRunner
      * @return array
      * @throws \Exception
      */
-    public function runTask(string $name, array $params = [])
+    public function runTask($name, array $params = [])
     {
         $task = $this->container->get($name);
 

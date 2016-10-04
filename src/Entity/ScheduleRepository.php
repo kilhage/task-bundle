@@ -18,7 +18,7 @@ class ScheduleRepository extends EntityRepository
      *
      * @throws NoResultException
      */
-    public function findByName($name) : ScheduleInterface
+    public function findByName($name)
     {
         return $this->getEntityManager()
             ->createQuery('SELECT r FROM GloobyTaskBundle:Schedule r WHERE r.name = :name')
@@ -32,7 +32,7 @@ class ScheduleRepository extends EntityRepository
      *
      * @return ScheduleInterface[]
      */
-    public function findNotInNames(array $names) : array
+    public function findNotInNames(array $names)
     {
         return $this->getEntityManager()
             ->createQuery('SELECT r FROM GloobyTaskBundle:Schedule r WHERE r.name NOT IN (:names)')
@@ -44,7 +44,7 @@ class ScheduleRepository extends EntityRepository
     /**
      * @return ScheduleInterface[]
      */
-    public function findActive() : array
+    public function findActive()
     {
         return $this->getEntityManager()
             ->createQuery('SELECT r FROM GloobyTaskBundle:Schedule r WHERE r.active = true')

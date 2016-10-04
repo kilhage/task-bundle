@@ -113,7 +113,7 @@ class QueuedTask implements QueuedTaskInterface
     /**
      * {@inheritdoc}
      */
-    public function getSchedule(): ScheduleInterface
+    public function getSchedule()
     {
         return $this->schedule;
     }
@@ -201,7 +201,7 @@ class QueuedTask implements QueuedTaskInterface
     /**
      * @param string $status
      */
-    protected function setStatus(string $status)
+    protected function setStatus($status)
     {
         $this->status = $status;
     }
@@ -209,7 +209,7 @@ class QueuedTask implements QueuedTaskInterface
     /**
      * @param string $resolution
      */
-    protected function setResolution(string $resolution)
+    protected function setResolution($resolution)
     {
         $this->resolution = $resolution;
     }

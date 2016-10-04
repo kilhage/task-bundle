@@ -31,7 +31,7 @@ class TaskManager
      * @param array|null $params
      * @return QueuedTaskInterface
      */
-    public function queue(string $service, \DateTime $executeAt = null, array $params = null)
+    public function queue($service, \DateTime $executeAt = null, array $params = null)
     {
         $run = new QueuedTask($service, $params, $executeAt);
         $this->populateSchedule($run, $service);
@@ -53,7 +53,7 @@ class TaskManager
      * @param array $params
      * @return QueuedTaskInterface
      */
-    public function run(string $service, array $params = null)
+    public function run($service, array $params = null)
     {
         $run = new QueuedTask($service, $params);
         $run->start();
