@@ -3,6 +3,7 @@
     "license": "MIT",
     "type": "symfony-bundle",
     "description": "Scheduling of tasks for symfony made simple",
+    "keywords": ["cron", "symfony", "scheduler", "task", "bundle", "glooby"],
     "authors": [
         {
             "name": "Emil Kilhage",
