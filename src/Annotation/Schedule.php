@@ -1,6 +1,7 @@
 <?php
 
 namespace Glooby\TaskBundle\Annotation;
+use Cron\CronExpression;
 
 /**
  * @author Emil Kilhage
@@ -73,6 +74,8 @@ class Schedule
 
             $this->$key = $value;
         }
+
+        CronExpression::factory($this->runEvery);
 
         if (isset($this->timeout) && !is_numeric($this->timeout)) {
             throw new \InvalidArgumentException('Property "timeout" must be an int');

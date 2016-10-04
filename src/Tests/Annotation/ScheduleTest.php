@@ -13,7 +13,7 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
     {
         $schedule = new Schedule(['value' => '@daily']);
 
-        $this->assertEquals('1 day', $schedule->runEvery);
+        $this->assertEquals('0 0 * * *', $schedule->runEvery);
         $this->assertTrue($schedule->active);
     }
 
@@ -21,7 +21,7 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
     {
         $schedule = new Schedule(['runEvery' => '@daily']);
 
-        $this->assertEquals('1 day', $schedule->runEvery);
+        $this->assertEquals('0 0 * * *', $schedule->runEvery);
         $this->assertTrue($schedule->active);
     }
 
@@ -33,7 +33,7 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
             'params' => [1],
         ]);
 
-        $this->assertEquals('1 day', $schedule->runEvery);
+        $this->assertEquals('0 0 * * *', $schedule->runEvery);
         $this->assertEquals([1], $schedule->params);
         $this->assertFalse($schedule->active);
     }

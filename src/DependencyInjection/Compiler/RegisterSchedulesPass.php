@@ -30,6 +30,10 @@ class RegisterSchedulesPass implements CompilerPassInterface
             $definition = $container->getDefinition($taskId);
             $class = $definition->getClass();
 
+            if (!class_exists($class)) {
+                throw new \InvalidArgumentException('Invalid class: '.$class);
+            }
+
             if ($class && !$this->isTaskImplementation($class)) {
                 throw new \InvalidArgumentException(sprintf('schedule "%s" with class "%s" must implement TaskInterface.', $taskId, $class));
             }
