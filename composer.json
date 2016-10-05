@@ -20,6 +20,7 @@
         "mtdowling/cron-expression": "~1.0"
     },
     "require-dev": {
-        "phpspec/prophecy": "~1.5"
+        "phpspec/prophecy": "~1.5",
+        "satooshi/php-coveralls": "dev-master"
     }
 }
