@@ -13,27 +13,27 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
     {
         $schedule = new Schedule(['value' => '@daily']);
 
-        $this->assertEquals('0 0 * * *', $schedule->runEvery);
+        $this->assertEquals('0 0 * * *', $schedule->interval);
         $this->assertTrue($schedule->active);
     }
 
     public function testInterval()
     {
-        $schedule = new Schedule(['runEvery' => '@daily']);
+        $schedule = new Schedule(['interval' => '@daily']);
 
-        $this->assertEquals('0 0 * * *', $schedule->runEvery);
+        $this->assertEquals('0 0 * * *', $schedule->interval);
         $this->assertTrue($schedule->active);
     }
 
     public function testIntervalActiveParams()
     {
         $schedule = new Schedule([
-            'runEvery' => '@daily',
+            'interval' => '@daily',
             'active' => false,
             'params' => [1],
         ]);
 
-        $this->assertEquals('0 0 * * *', $schedule->runEvery);
+        $this->assertEquals('0 0 * * *', $schedule->interval);
         $this->assertEquals([1], $schedule->params);
         $this->assertFalse($schedule->active);
     }
@@ -60,7 +60,7 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('\InvalidArgumentException');
 
-        new Schedule(['runEvery' => 'fdsfds fds']);
+        new Schedule(['interval' => 'fdsfds fds']);
     }
 
     public function testMissingInvalid()

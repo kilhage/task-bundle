@@ -29,7 +29,7 @@ class Schedule implements ScheduleInterface
     /**
      * @var string
      */
-    protected $runEvery;
+    protected $interval;
 
     /**
      * @var bool
@@ -110,23 +110,23 @@ class Schedule implements ScheduleInterface
      */
     public function parseExpression()
     {
-        return CronExpression::factory($this->getRunEvery());
+        return CronExpression::factory($this->getInterval());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getRunEvery()
+    public function getInterval()
     {
-        return $this->runEvery;
+        return $this->interval;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setRunEvery($runEvery)
+    public function setInterval($interval)
     {
-        $this->runEvery = $runEvery;
+        $this->interval = $interval;
     }
 
     /**

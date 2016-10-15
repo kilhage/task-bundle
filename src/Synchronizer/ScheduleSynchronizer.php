@@ -83,7 +83,7 @@ class ScheduleSynchronizer
     {
         $schedule->setName($id);
         $schedule->setActive($def->active);
-        $schedule->setRunEvery($def->runEvery);
+        $schedule->setInterval($def->interval);
         $schedule->setTimeout($def->timeout);
         $schedule->setParams($def->params);
         $schedule->setVersion($def->version);

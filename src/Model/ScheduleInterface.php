@@ -42,12 +42,12 @@ interface ScheduleInterface
     /**
      * @return string
      */
-    public function getRunEvery();
+    public function getInterval();
 
     /**
-     * @param string $runEvery
+     * @param string $interval
      */
-    public function setRunEvery($runEvery);
+    public function setInterval($interval);
 
     /**
      * @return boolean

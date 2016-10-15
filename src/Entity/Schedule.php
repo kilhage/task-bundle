@@ -44,9 +44,9 @@ class Schedule extends \Glooby\TaskBundle\Model\Schedule
     /**
      * @var string
      *
-     * @ORM\Column(name="run_every", type="string")
+     * @ORM\Column(name="interval", type="string")
      */
-    protected $runEvery;
+    protected $interval;
 
     /**
      * @var bool

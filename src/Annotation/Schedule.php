@@ -28,7 +28,7 @@ class Schedule
     /**
      * @var string
      */
-    public $runEvery;
+    public $interval;
 
     /**
      * @var bool
@@ -92,7 +92,7 @@ class Schedule
      */
     public function validateExpression()
     {
-        CronExpression::factory($this->runEvery);
+        CronExpression::factory($this->interval);
     }
 
     /**
@@ -116,8 +116,8 @@ class Schedule
      */
     public function mapExpression(array $options)
     {
-        if (isset(self::$map[$options['runEvery']])) {
-            $options['runEvery'] = self::$map[$options['runEvery']];
+        if (isset(self::$map[$options['interval']])) {
+            $options['interval'] = self::$map[$options['interval']];
         }
 
         return $options;
@@ -130,7 +130,7 @@ class Schedule
     public function setDefault(array $options)
     {
         if (isset($options['value'])) {
-            $options['runEvery'] = $options['value'];
+            $options['interval'] = $options['value'];
             unset($options['value']);
         }
 
@@ -144,8 +144,8 @@ class Schedule
      */
     public function ensureExpressionExist(array $options)
     {
-        if (empty($options['runEvery'])) {
-            throw new \InvalidArgumentException('Missing property runEvery');
+        if (empty($options['interval'])) {
+            throw new \InvalidArgumentException('Missing property interval');
         }
         return $options;
     }

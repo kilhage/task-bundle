@@ -17,7 +17,7 @@ Installation
 Add the `glooby/task-bundle` package to your `require` section in the `composer.json` file.
 
 ``` bash
-$ composer require glooby/task-bundle ~0.1
+$ composer require glooby/task-bundle ~1.0
 ```
 
 Add the GloobyTaskBundle to your application's kernel:
