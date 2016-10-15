@@ -2,7 +2,9 @@
 [![Build Status](https://travis-ci.org/glooby/task-bundle.svg?branch=master)](https://travis-ci.org/glooby/task-bundle)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/glooby/task-bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/glooby/task-bundle/?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/glooby/task-bundle/badge.svg)](https://coveralls.io/github/glooby/task-bundle)
-[![PHP version](https://badge.fury.io/ph/glooby%2Ftask-bundle.svg)](https://badge.fury.io/ph/glooby%2Ftask-bundle)
+[![Latest Stable Version](https://poser.pugx.org/glooby/task-bundle/version)](https://packagist.org/packages/glooby/task-bundle)
+[![Total Downloads](https://poser.pugx.org/glooby/task-bundle/downloads)](https://packagist.org/packages/glooby/task-bundle)
+[![License](https://poser.pugx.org/glooby/task-bundle/license)](https://packagist.org/packages/glooby/task-bundle)
 
 Provides a simple framework to manage scheduling and execution of tasks Symfony application.
 
