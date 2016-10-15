@@ -117,26 +117,8 @@ Annotate your class with this annotation: Glooby\TaskBundle\Annotation\Schedule
 
 ###### interval
 
-The first parameter to the annotation is defaulted to the "interval" parameter. In this parameter you configure the
+The first parameter to the annotation is defaulted to the **interval** parameter. In this parameter you configure the
 interval that the service should be executed.
-
-the following library is used to parse the crontab expression:
-
-https://github.com/mtdowling/cron-expression
-
-This is the only required parameter
-
-```php
-
-use Glooby\TaskBundle\Annotation\Schedule;
-
-/**
- * @Schedule("*")
- */
-class PingTask implements TaskInterface
-{
-
-```
 
 The **interval** is a string of five or optional six subexpressions that describe details of the schedule. The syntax is based on the Linux cron daemon definition.
 ```
@@ -151,7 +133,21 @@ The **interval** is a string of five or optional six subexpressions that describ
     +------------------------- min (0 - 59)
 ```
 
-Here you have several shortcuts that you can use instead
+This is the only required parameter
+
+```php
+
+use Glooby\TaskBundle\Annotation\Schedule;
+
+/**
+ * @Schedule("* * * * *")
+ */
+class PingTask implements TaskInterface
+{
+
+```
+
+Here you have several shortcuts that you can use instead for most common use cases
 
 |      value      |   interval   |
 |:---------------:|:------------:|
@@ -166,9 +162,21 @@ Here you have several shortcuts that you can use instead
 | @quarter_hourly | */15 * * * * |
 | *               | * * * * *    |
 
+```php
+
+use Glooby\TaskBundle\Annotation\Schedule;
+
+/**
+ * @Schedule("@hourly")
+ */
+class PingTask implements TaskInterface
+{
+
+```
+
 ###### params
 
-The params that should be used when calling
+The **params** that should be used when calling
 
 ```php
 
@@ -184,7 +192,7 @@ class CityImporter implements TaskInterface
 
 ###### active
 
-the active parameter tells if the schedule should be active or not, default=true
+Phe **active** parameter tells if the schedule should be active or not, default=true
 
 ```php
 
