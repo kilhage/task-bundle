@@ -44,7 +44,7 @@ class Schedule extends \Glooby\TaskBundle\Model\Schedule
     /**
      * @var string
      *
-     * @ORM\Column(name="interval", type="string")
+     * @ORM\Column(name="_interval", type="string")
      */
     protected $interval;
 
