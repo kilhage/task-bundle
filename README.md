@@ -138,6 +138,34 @@ class PingTask implements TaskInterface
 
 ```
 
+The **interval** is a string of five or optional six subexpressions that describe details of the schedule. The syntax is based on the Linux cron daemon definition.
+```
+    *    *    *    *    *    *
+    -    -    -    -    -    -
+    |    |    |    |    |    |
+    |    |    |    |    |    + year [optional]
+    |    |    |    |    +----- day of week (0 - 7) (Sunday=0 or 7)
+    |    |    |    +---------- month (1 - 12)
+    |    |    +--------------- day of month (1 - 31)
+    |    +-------------------- hour (0 - 23)
+    +------------------------- min (0 - 59)
+```
+
+Here you have several shortcuts that you can use instead
+
+|      value      |   interval   |
+|:---------------:|:------------:|
+| @yearly         | 0 0 1 1 *    |
+| @annually       | 0 0 1 1 *    |
+| @monthly        | 0 0 1 * *    |
+| @weekly         | 0 0 * * 0    |
+| @daily          | 0 0 * * *    |
+| @hourly         | 0 * * * *    |
+| @semi_hourly    | */30 * * * * |
+| @quarter_hourly | */15 * * * * |
+| @quarter_hourly | */15 * * * * |
+| *               | * * * * *    |
+
 ###### params
 
 The params that should be used when calling
