@@ -4,10 +4,12 @@
     "type": "symfony-bundle",
     "description": "Scheduling of tasks for symfony made simple",
     "keywords": ["cron", "symfony", "scheduler", "task", "bundle", "glooby"],
+    "homepage": "https://www.glooby.se",
     "authors": [
         {
             "name": "Emil Kilhage",
-            "email": "emil.kilhage@glooby.com"
+            "email": "emil.kilhage@glooby.com",
+            "homepage": "https://www.glooby.se"
         }
     ],
     "autoload": {
