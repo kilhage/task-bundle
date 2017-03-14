@@ -162,7 +162,7 @@ class QueueProcessor
     private function createCommand(QueuedTaskInterface $queuedTask)
     {
         $command = sprintf(
-            'php -d memory_limit=%s app/console task:run --id=%s %s',
+            'php -d memory_limit=%s bin/console task:run --id=%s %s',
             ini_get('memory_limit'),
             $queuedTask->getId(),
             $this->getProcessParams()

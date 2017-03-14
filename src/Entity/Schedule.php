@@ -72,7 +72,7 @@ class Schedule extends \Glooby\TaskBundle\Model\Schedule
     /**
      * @var array
      *
-     * @ORM\Column(name="params", type="json")
+     * @ORM\Column(name="params", type="json_array")
      */
     protected $params = [];
 

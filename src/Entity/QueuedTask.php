@@ -44,7 +44,7 @@ class QueuedTask extends \Glooby\TaskBundle\Model\QueuedTask
     /**
      * @var array
      *
-     * @ORM\Column(name="params", type="json", nullable=true)
+     * @ORM\Column(name="params", type="json_array", nullable=true)
      */
     protected $params = [];
 
