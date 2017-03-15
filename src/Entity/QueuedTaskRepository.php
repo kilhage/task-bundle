@@ -3,6 +3,7 @@
 namespace Glooby\TaskBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NoResultException;
 use Glooby\TaskBundle\Model\QueuedTaskInterface;
 
 /**
@@ -60,5 +61,28 @@ class QueuedTaskRepository extends EntityRepository
             ->setMaxResults($limit)
             ->useQueryCache(true)
             ->getResult();
+    }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function isRunning($name)
+    {
+        try {
+            $this->getEntityManager()
+                ->createQuery('SELECT r
+                  FROM GloobyTaskBundle:QueuedTask r
+                  WHERE r.name = :name AND r.status = :status')
+                ->setParameter('name', $name)
+                ->setParameter('status', QueuedTaskInterface::STATUS_RUNNING)
+                ->useQueryCache(true)
+                ->setMaxResults(1)
+                ->getSingleResult();
+
+            return true;
+        } catch (NoResultException $e) {
+            return false;
+        }
     }
 }
