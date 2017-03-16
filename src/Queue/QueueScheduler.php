@@ -45,11 +45,16 @@ class QueueScheduler
      */
     public function schedule()
     {
-        $repo = $this->doctrine->getManager()
+        $queueRepo = $this->doctrine->getManager()
+            ->getRepository('GloobyTaskBundle:QueuedTask');
+
+        $scheduleRepo = $this->doctrine->getManager()
             ->getRepository('GloobyTaskBundle:Schedule');
 
-        foreach ($repo->findActive() as $schedule) {
-            $this->queue($schedule);
+        foreach ($scheduleRepo->findActive() as $schedule) {
+            if (!$queueRepo->isQueued($schedule->getName())) {
+                $this->queue($schedule);
+            }
         }
 
         $this->doctrine->getManager()->flush();

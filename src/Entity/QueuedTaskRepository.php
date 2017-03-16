@@ -85,4 +85,27 @@ class QueuedTaskRepository extends EntityRepository
             return false;
         }
     }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function isQueued($name)
+    {
+        try {
+            $this->getEntityManager()
+                ->createQuery('SELECT r
+                  FROM GloobyTaskBundle:QueuedTask r
+                  WHERE r.name = :name AND r.status = :status')
+                ->setParameter('name', $name)
+                ->setParameter('status', QueuedTaskInterface::STATUS_QUEUED)
+                ->useQueryCache(true)
+                ->setMaxResults(1)
+                ->getSingleResult();
+
+            return true;
+        } catch (NoResultException $e) {
+            return false;
+        }
+    }
 }
