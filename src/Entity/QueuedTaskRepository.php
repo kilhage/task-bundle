@@ -69,21 +69,7 @@ class QueuedTaskRepository extends EntityRepository
      */
     public function isRunning($name)
     {
-        try {
-            $this->getEntityManager()
-                ->createQuery('SELECT r
-                  FROM GloobyTaskBundle:QueuedTask r
-                  WHERE r.name = :name AND r.status = :status')
-                ->setParameter('name', $name)
-                ->setParameter('status', QueuedTaskInterface::STATUS_RUNNING)
-                ->useQueryCache(true)
-                ->setMaxResults(1)
-                ->getSingleResult();
-
-            return true;
-        } catch (NoResultException $e) {
-            return false;
-        }
+        return $this->isStatus($name, QueuedTaskInterface::STATUS_RUNNING);
     }
 
     /**
@@ -92,13 +78,23 @@ class QueuedTaskRepository extends EntityRepository
      */
     public function isQueued($name)
     {
+        return $this->isStatus($name, QueuedTaskInterface::STATUS_QUEUED);
+    }
+
+    /**
+     * @param string $name
+     * @param string $status
+     * @return bool
+     */
+    private function isStatus($name, $status)
+    {
         try {
             $this->getEntityManager()
                 ->createQuery('SELECT r
                   FROM GloobyTaskBundle:QueuedTask r
                   WHERE r.name = :name AND r.status = :status')
                 ->setParameter('name', $name)
-                ->setParameter('status', QueuedTaskInterface::STATUS_QUEUED)
+                ->setParameter('status', $status)
                 ->useQueryCache(true)
                 ->setMaxResults(1)
                 ->getSingleResult();
