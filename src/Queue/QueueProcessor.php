@@ -77,8 +77,10 @@ class QueueProcessor
         $queueRepo = $this->doctrine->getManager()
             ->getRepository('GloobyTaskBundle:QueuedTask');
 
+        $started = [];
         foreach ($queueRepo->findQueued($this->limit) as $queuedTask) {
-            if (!$queueRepo->isRunning($queuedTask->getName())) {
+            if (!$queueRepo->isRunning($queuedTask->getName()) && !in_array($queuedTask->getName(), $started)) {
+                $started[] = $queuedTask->getName();
                 $this->start($queuedTask);
             }
         }
