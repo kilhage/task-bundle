@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 /**
  * @author Emil Kilhage
  */
-class TaskRunner
+class TaskRunner implements OutputAwareInterface
 {
     use ContainerAwareTrait;
     use LoggerAwareTrait;
@@ -90,6 +90,14 @@ class TaskRunner
     protected function execute(TaskInterface $task, array $params, QueuedTaskInterface $run)
     {
         try {
+            if ($task instanceof QueuedTaskAwareInterface) {
+                $task->setQueuedTask($run);
+            }
+
+            if ($task instanceof OutputAwareInterface) {
+                $task->setOutput($this->output);
+            }
+
             if (count($params) > 0) {
                 $response = $task->run($params);
             } else {

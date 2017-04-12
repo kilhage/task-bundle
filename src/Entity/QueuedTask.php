@@ -85,6 +85,20 @@ class QueuedTask extends \Glooby\TaskBundle\Model\QueuedTask
     protected $result;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="progress", type="integer", nullable=true, options={"default": 0})
+     */
+    protected $progress;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="progress_info", type="string", nullable=true)
+     */
+    protected $progressInfo;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="status", type="string", options={"default": "queued"})

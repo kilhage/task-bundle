@@ -94,4 +94,10 @@ interface QueuedTaskInterface
      * @param mixed $response
      */
     public function failure($response);
+
+    /**
+     * @param int $progress
+     * @param string|null $info
+     */
+    public function progress(int $progress, ?string $info = null);
 }

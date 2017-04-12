@@ -53,6 +53,16 @@ class QueuedTask implements QueuedTaskInterface
     protected $result;
 
     /**
+     * @var int
+     */
+    protected $progress;
+
+    /**
+     * @var string
+     */
+    protected $progressInfo;
+
+    /**
      * @var string
      */
     protected $status = self::STATUS_QUEUED;
@@ -244,6 +254,7 @@ class QueuedTask implements QueuedTaskInterface
     {
         $this->setStatus(QueuedTaskInterface::STATUS_RUNNING);
         $this->setStarted(new \DateTime());
+        $this->progress(0);
     }
 
     /**
@@ -252,6 +263,7 @@ class QueuedTask implements QueuedTaskInterface
     public function success($response)
     {
         $this->resolve(QueuedTaskInterface::RESOLUTION_SUCCESS, $response);
+        $this->progress(100);
     }
 
     /**
@@ -260,5 +272,18 @@ class QueuedTask implements QueuedTaskInterface
     public function failure($response)
     {
         $this->resolve(QueuedTaskInterface::RESOLUTION_FAILURE, $response);
+        $this->progress(100);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function progress(int $progress, ?string $info = null)
+    {
+        $this->progress = $progress;
+
+        if ($info) {
+            $this->progressInfo = $info;
+        }
     }
 }

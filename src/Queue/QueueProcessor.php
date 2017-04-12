@@ -145,16 +145,7 @@ class QueueProcessor
 
         $process = new Process($command);
         $process->setTimeout(0);
-        $process->start(function ($type, $data) use ($that, &$nl) {
-            if (null !== $that->output) {
-                if ($nl) {
-                    $nl = false;
-                    $that->output->write("\n");
-                }
-
-                $that->output->write($data);
-            }
-        });
+        $process->start();
 
         return $process;
     }

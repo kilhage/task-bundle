@@ -35,7 +35,15 @@ class RunCommand extends ContainerAwareCommand
         $runner->setOutput($output);
 
         if ($input->getOption('id')) {
-            $this->runId($input, $runner);
+            $response = $this->runId($input, $runner);
+
+            if (!$input->getOption('silent')) {
+                if (!empty($response)) {
+                    $output->writeln("task {$input->getOption('id')} finished: $response");
+                } else {
+                    $output->writeln("task {$input->getOption('id')} finished");
+                }
+            }
         } else {
             $response = $runner->runTask($input->getArgument('service'));
 
@@ -62,6 +70,6 @@ class RunCommand extends ContainerAwareCommand
             throw new NoResultException();
         }
 
-        $runner->run($task);
+        return $runner->run($task);
     }
 }
