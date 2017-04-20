@@ -21,7 +21,10 @@ class Schedule
         '@daily' => '0 0 * * *',
         '@hourly' => '0 * * * *',
         '@semi_hourly' => '*/30 * * * *',
+        '@twenty_minutes' => '*/20 * * * *',
         '@quarter_hourly' => '*/15 * * * *',
+        '@ten_minutes' => '*/10 * * * *',
+        '@five_minutes' => '*/5 * * * *',
         '*' => '* * * * *',
     ];
 
