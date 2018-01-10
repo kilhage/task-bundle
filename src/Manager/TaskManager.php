@@ -60,7 +60,7 @@ class TaskManager
         $this->populateSchedule($task, $service);
 
         $this->doctrine->getManager()->persist($task);
-        $this->save($task);
+        $this->save();
 
         return $task;
     }
@@ -72,7 +72,7 @@ class TaskManager
     public function success(QueuedTaskInterface $task, $response)
     {
         $task->success($response);
-        $this->save($task);
+        $this->save();
     }
 
     /**
@@ -82,7 +82,7 @@ class TaskManager
     public function failure(QueuedTaskInterface $task, $response)
     {
         $task->failure($response);
-        $this->save($task);
+        $this->save();
     }
 
     /**
@@ -103,9 +103,9 @@ class TaskManager
     }
 
     /**
-     * @param QueuedTaskInterface $task
+     *
      */
-    private function save(QueuedTaskInterface $task)
+    private function save()
     {
         $this->doctrine->getManager()->flush();
     }
