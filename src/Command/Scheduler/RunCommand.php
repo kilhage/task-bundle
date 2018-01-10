@@ -28,6 +28,9 @@ class RunCommand extends ContainerAwareCommand
         $runner->setOutput($output);
         $runner->process();
 
+        $monitor = $this->getContainer()->get('glooby_task.queue_monitor');
+        $monitor->monitor();
+
         $scheduler = $this->getContainer()->get('glooby_task.queue_scheduler');
         $scheduler->schedule();
     }

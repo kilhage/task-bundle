@@ -34,19 +34,18 @@ class TaskManager
      */
     public function queue($service, \DateTime $executeAt = null, array $params = null)
     {
-        $run = new QueuedTask($service, $params, $executeAt);
-        $this->populateSchedule($run, $service);
-        $this->doctrine->getManager()->persist($run);
-        return $run;
+        $task = new QueuedTask($service, $params, $executeAt);
+        $this->populateSchedule($task, $service);
+        $this->doctrine->getManager()->persist($task);
+        return $task;
     }
 
     /**
-     * @param QueuedTaskInterface $run
+     * @param QueuedTaskInterface $task
      */
-    public function start(QueuedTaskInterface $run)
+    public function start(QueuedTaskInterface $task)
     {
-        $run->start();
-        $this->doctrine->getManager()->flush();
+        $task->start();
     }
 
     /**
@@ -56,50 +55,58 @@ class TaskManager
      */
     public function run($service, array $params = null)
     {
-        $run = new QueuedTask($service, $params);
-        $run->start();
-        $this->populateSchedule($run, $service);
+        $task = new QueuedTask($service, $params);
+        $task->start();
+        $this->populateSchedule($task, $service);
 
-        $this->doctrine->getManager()->persist($run);
-        $this->doctrine->getManager()->flush();
+        $this->doctrine->getManager()->persist($task);
+        $this->save($task);
 
-        return $run;
+        return $task;
     }
 
     /**
-     * @param QueuedTaskInterface $run
+     * @param QueuedTaskInterface $task
      * @param $response
      */
-    public function success(QueuedTaskInterface $run, $response)
+    public function success(QueuedTaskInterface $task, $response)
     {
-        $run->success($response);
-        $this->doctrine->getManager()->flush();
+        $task->success($response);
+        $this->save($task);
     }
 
     /**
-     * @param QueuedTaskInterface $run
+     * @param QueuedTaskInterface $task
      * @param $response
      */
-    public function failure(QueuedTaskInterface $run, $response)
+    public function failure(QueuedTaskInterface $task, $response)
     {
-        $run->failure($response);
-        $this->doctrine->getManager()->flush();
+        $task->failure($response);
+        $this->save($task);
     }
 
     /**
-     * @param QueuedTaskInterface $run
+     * @param QueuedTaskInterface $task
      * @param string $service
      */
-    private function populateSchedule(QueuedTaskInterface $run, $service)
+    private function populateSchedule(QueuedTaskInterface $task, $service)
     {
         try {
             /** @var ScheduleRepository $repo */
             $repo = $this->doctrine->getManager()
                 ->getRepository('GloobyTaskBundle:Schedule');
             $schedule = $repo->findByName($service);
-            $run->setSchedule($schedule);
+            $task->setSchedule($schedule);
         } catch (NoResultException $e) {
             // ignore if not found
         }
+    }
+
+    /**
+     * @param QueuedTaskInterface $task
+     */
+    private function save(QueuedTaskInterface $task)
+    {
+        $this->doctrine->getManager()->flush();
     }
 }

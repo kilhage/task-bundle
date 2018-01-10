@@ -13,6 +13,11 @@ class QueuedTask implements QueuedTaskInterface
     protected $id;
 
     /**
+     * @var int
+     */
+    protected $pid;
+
+    /**
      * @var string
      */
     protected $name;
@@ -21,6 +26,11 @@ class QueuedTask implements QueuedTaskInterface
      * @var \DateTime
      */
     protected $created;
+
+    /**
+     * @var \DateTime
+     */
+    protected $updated;
 
     /**
      * @var array
@@ -84,6 +94,7 @@ class QueuedTask implements QueuedTaskInterface
         $this->params = null === $params ? $params : [];
         $this->executeAt = null === $executeAt ? new \DateTime() : $executeAt;
         $this->created = new \DateTime();
+        $this->updated = new \DateTime();
         $this->status = self::STATUS_QUEUED;
         $this->resolution = self::RESOLUTION_QUEUED;
     }
@@ -94,6 +105,22 @@ class QueuedTask implements QueuedTaskInterface
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPid()
+    {
+        return $this->pid;
+    }
+
+    /**
+     * @param int $pid
+     */
+    public function setPid(int $pid)
+    {
+        $this->pid = $pid;
     }
 
     /**
@@ -110,6 +137,22 @@ class QueuedTask implements QueuedTaskInterface
     public function getCreated()
     {
         return $this->created;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * @param \DateTime $updated
+     */
+    public function setUpdated(\DateTime $updated)
+    {
+        $this->updated = $updated;
     }
 
     /**
@@ -242,6 +285,7 @@ class QueuedTask implements QueuedTaskInterface
             $this->setResult(print_r($response, true));
         }
 
+        $this->setUpdated(new \DateTime());
         $this->setStatus(QueuedTaskInterface::STATUS_DONE);
         $this->setResolution($resolution);
         $this->setFinished(new \DateTime());
@@ -252,6 +296,8 @@ class QueuedTask implements QueuedTaskInterface
      */
     public function start()
     {
+        $this->setUpdated(new \DateTime());
+        $this->setPid(posix_getpid());
         $this->setStatus(QueuedTaskInterface::STATUS_RUNNING);
         $this->setStarted(new \DateTime());
         $this->progress(0);

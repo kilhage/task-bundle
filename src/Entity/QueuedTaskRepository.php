@@ -64,6 +64,20 @@ class QueuedTaskRepository extends EntityRepository
     }
 
     /**
+     * @return QueuedTaskInterface[]
+     */
+    public function findRunning()
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT r
+              FROM GloobyTaskBundle:QueuedTask r
+              WHERE r.status = :status')
+            ->setParameter('status', QueuedTaskInterface::STATUS_RUNNING)
+            ->useQueryCache(true)
+            ->getResult();
+    }
+
+    /**
      * @param string $name
      * @return bool
      */

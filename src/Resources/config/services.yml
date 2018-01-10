@@ -50,3 +50,9 @@ services:
             - [setDoctrine,     ['@doctrine']]
             - [setLimit,        ['%glooby_task.queue_processor.limit%']]
             - [setDebug,        ['%kernel.debug%']]
+
+    glooby_task.queue_monitor:
+        class: Glooby\TaskBundle\Queue\QueueMonitor
+        calls:
+            - [setDoctrine,     ['@doctrine']]
+            - [setTaskManager,  ['@glooby_task.task_manager']]

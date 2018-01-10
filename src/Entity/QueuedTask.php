@@ -28,6 +28,13 @@ class QueuedTask extends \Glooby\TaskBundle\Model\QueuedTask
     protected $id;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="pid", type="integer")
+     */
+    protected $pid;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
@@ -40,6 +47,13 @@ class QueuedTask extends \Glooby\TaskBundle\Model\QueuedTask
      * @ORM\Column(name="created", type="datetime")
      */
     protected $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated", type="datetime")
+     */
+    protected $updated;
 
     /**
      * @var array

@@ -21,6 +21,16 @@ interface QueuedTaskInterface
     public function getId();
 
     /**
+     * @return int
+     */
+    public function getPId();
+
+    /**
+     * @param int $pid
+     */
+    public function setPId(int $pid);
+
+    /**
      * @return string
      */
     public function getName();
@@ -29,6 +39,16 @@ interface QueuedTaskInterface
      * @return \DateTime
      */
     public function getCreated();
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdated();
+
+    /**
+     * @param \DateTime $updated
+     */
+    public function setUpdated(\DateTime $updated);
 
     /**
      * @return \DateTime
