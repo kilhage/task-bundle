@@ -45,7 +45,7 @@ class QueueMonitor
             ->getRepository('GloobyTaskBundle:QueuedTask');
 
         foreach ($taskRepo->findRunning() as $task) {
-            if (false === posix_getpgid($task->getPId())) {
+            if ($task->hasPId() && false === posix_getpgid($task->getPId())) {
                 $this->taskManager->failure($task, 'crashed');
             }
         }

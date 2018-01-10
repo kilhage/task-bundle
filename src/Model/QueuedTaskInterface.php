@@ -26,6 +26,11 @@ interface QueuedTaskInterface
     public function getPId();
 
     /**
+     * @return int
+     */
+    public function hasPId();
+
+    /**
      * @param int $pid
      */
     public function setPId(int $pid);

@@ -116,6 +116,14 @@ class QueuedTask implements QueuedTaskInterface
     }
 
     /**
+     * @return boolean
+     */
+    public function hasPId()
+    {
+        return null !== $this->pid;
+    }
+
+    /**
      * @param int $pid
      */
     public function setPid(int $pid)
