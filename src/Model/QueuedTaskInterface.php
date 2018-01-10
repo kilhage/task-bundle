@@ -26,7 +26,7 @@ interface QueuedTaskInterface
     public function getPId();
 
     /**
-     * @return int
+     * @return boolean
      */
     public function hasPId();
 
