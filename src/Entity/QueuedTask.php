@@ -30,7 +30,7 @@ class QueuedTask extends \Glooby\TaskBundle\Model\QueuedTask
     /**
      * @var int
      *
-     * @ORM\Column(name="pid", type="integer")
+     * @ORM\Column(name="pid", type="integer", nullable=true)
      */
     protected $pid;
 
