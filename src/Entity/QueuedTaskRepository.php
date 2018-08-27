@@ -25,6 +25,7 @@ class QueuedTaskRepository extends EntityRepository
             ->setParameter('name', $name)
             ->setParameter('executeAt', $executeAt)
             ->useQueryCache(true)
+            ->setMaxResults(1)
             ->getSingleResult();
     }
 
