@@ -161,7 +161,6 @@ Here you have several shortcuts that you can use instead for most common use cas
 | @hourly         | 0 * * * *    |
 | @semi_hourly    | */30 * * * * |
 | @quarter_hourly | */15 * * * * |
-| @quarter_hourly | */15 * * * * |
 | *               | * * * * *    |
 
 ```php
