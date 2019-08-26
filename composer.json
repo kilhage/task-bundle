@@ -1,5 +1,5 @@
 {
-    "name": "glooby/task-bundle",
+    "name": "mattzamora/task-bundle",
     "license": "MIT",
     "type": "symfony-bundle",
     "description": "Scheduling of tasks for symfony made simple",
