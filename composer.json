@@ -16,8 +16,8 @@
         "psr-4": { "Glooby\\TaskBundle\\": "src/" }
     },
     "require": {
-        "php": ">=5.5||>7.1",
-        "symfony/framework-bundle": "~3.0||~4.0",
+        "php": ">=7.1",
+        "symfony/framework-bundle": "~4.3",
         "doctrine/orm": "~2.4",
         "dragonmantank/cron-expression": "~2.0"
     },
