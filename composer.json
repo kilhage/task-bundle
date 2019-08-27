@@ -22,7 +22,8 @@
         "mtdowling/cron-expression": "~1.0"
     },
     "require-dev": {
-        "phpspec/prophecy": "~1.5",
-        "satooshi/php-coveralls": "dev-master"
+        "phpspec/prophecy": "~1.8",
+        "php-coveralls/php-coveralls": "~2.1"
+
     }
 }
