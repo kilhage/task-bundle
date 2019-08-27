@@ -3,12 +3,13 @@
 namespace Glooby\TaskBundle\Tests\DependencyInjection;
 
 use Glooby\TaskBundle\DependencyInjection\Configuration;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Processor;
 
 /**
  * @author Emil Kilhage
  */
-class ConfigurationTest extends \PHPUnit_Framework_TestCase
+class ConfigurationTest extends TestCase
 {
     /**
      * @var Processor

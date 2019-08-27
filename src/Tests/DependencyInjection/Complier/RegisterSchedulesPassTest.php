@@ -4,13 +4,14 @@ namespace Glooby\TaskBundle\Tests\DependencyInjection\Compiler;
 
 use Glooby\TaskBundle\DependencyInjection\Compiler\RegisterSchedulesPass;
 use Glooby\TaskBundle\Task\TaskInterface;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * @author Emil Kilhage
  */
-class RegisterSchedulesPassTest extends \PHPUnit_Framework_TestCase
+class RegisterSchedulesPassTest extends TestCase
 {
     public function testAddsTaskIdsToRegistry()
     {
@@ -68,7 +69,7 @@ class RegisterSchedulesPassTest extends \PHPUnit_Framework_TestCase
 
         $container->setDefinition('task.foo.f', $definition);
 
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException('\InvalidArgumentException');
 
         $pass->process($container);
     }

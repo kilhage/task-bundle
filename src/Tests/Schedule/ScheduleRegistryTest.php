@@ -5,13 +5,14 @@ namespace Glooby\TaskBundle\Tests\Schedule;
 use Doctrine\Common\Annotations\Reader;
 use Glooby\TaskBundle\Annotation\Schedule;
 use Glooby\TaskBundle\Schedule\ScheduleRegistry;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @author Emil Kilhage
  */
-class ScheduleRegistryTest extends \PHPUnit_Framework_TestCase
+class ScheduleRegistryTest extends TestCase
 {
     public function testOne()
     {
@@ -80,7 +81,7 @@ class ScheduleRegistryTest extends \PHPUnit_Framework_TestCase
             ->shouldBeCalled()
             ->willReturn(null);
 
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException('\InvalidArgumentException');
 
         $registry->getSchedules();
     }
