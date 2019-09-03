@@ -19,7 +19,7 @@ class ConfigurationTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->processor = new Processor();
     }
