@@ -3,7 +3,7 @@
 namespace Glooby\TaskBundle\Tests\Annotation\Schedule;
 
 use Glooby\TaskBundle\Annotation\Schedule;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Emil Kilhage

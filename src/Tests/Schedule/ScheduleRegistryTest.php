@@ -6,7 +6,7 @@ use Doctrine\Common\Annotations\Reader;
 use Glooby\TaskBundle\Annotation\Schedule;
 use Glooby\TaskBundle\Schedule\ScheduleRegistry;
 use Prophecy\Argument;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**

@@ -3,7 +3,7 @@
 namespace Glooby\TaskBundle\Tests\DependencyInjection;
 
 use Glooby\TaskBundle\DependencyInjection\Configuration;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Processor;
 
 /**

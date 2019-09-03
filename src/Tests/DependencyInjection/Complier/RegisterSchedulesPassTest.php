@@ -4,7 +4,7 @@ namespace Glooby\TaskBundle\Tests\DependencyInjection\Compiler;
 
 use Glooby\TaskBundle\DependencyInjection\Compiler\RegisterSchedulesPass;
 use Glooby\TaskBundle\Task\TaskInterface;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 

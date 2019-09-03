@@ -3,7 +3,7 @@
 namespace Glooby\TaskBundle\Tests\DependencyInjection;
 
 use Glooby\TaskBundle\DependencyInjection\GloobyTaskExtension;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Yaml\Yaml;
 
