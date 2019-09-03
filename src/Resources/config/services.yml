@@ -2,6 +2,18 @@ parameters:
     glooby_task.queue_processor.limit: 10
 
 services:
+    _defaults: { public: true }
+
+    Glooby\TaskBundle\Task\PingTask: '@glooby_task.ping'
+    Glooby\TaskBundle\Schedule\ScheduleRegistry: '@glooby_task.schedule_registry'
+    Glooby\TaskBundle\Synchronizer\ScheduleSynchronizer: '@glooby_task.schedule_synchronizer'
+    Glooby\TaskBundle\Manager\TaskManager: '@glooby_task.task_manager'
+    Glooby\TaskBundle\Task\TaskRunner: '@glooby_task.task_runner'
+    Glooby\TaskBundle\Queue\QueuePruner: '@glooby_task.queue_pruner'
+    Glooby\TaskBundle\Queue\QueueScheduler: '@glooby_task.queue_scheduler'
+    Glooby\TaskBundle\Queue\QueueProcessor: '@glooby_task.queue_processor'
+    Glooby\TaskBundle\Queue\QueueMonitor: '@glooby_task.queue_monitor'
+
     glooby_task.ping:
         class: Glooby\TaskBundle\Task\PingTask
         tags:
@@ -56,3 +68,35 @@ services:
         calls:
             - [setDoctrine,     ['@doctrine']]
             - [setTaskManager,  ['@glooby_task.task_manager']]
+
+    glooby_task.task_run_command:
+        class:
+            Glooby\TaskBundle\Command\Task\RunCommand
+        arguments:
+            - '@service_container'
+        tags:
+            - { name: 'console.command', command: 'task:run' }
+
+    glooby_task.scheduler_run_command:
+        class:
+            Glooby\TaskBundle\Command\Scheduler\RunCommand
+        arguments:
+            - '@service_container'
+        tags:
+            - { name: 'console.command', command: 'scheduler:run' }
+
+    glooby_task.scheduler_prune_command:
+        class:
+            Glooby\TaskBundle\Command\Scheduler\PruneCommand
+        arguments:
+            - '@service_container'
+        tags:
+            - { name: 'console.command', command: 'scheduler:prune' }
+
+    glooby_task.scheduler_sync_command:
+        class:
+            Glooby\TaskBundle\Command\Scheduler\SyncCommand
+        arguments:
+            - '@service_container'
+        tags:
+            - { name: 'console.command', command: 'scheduler:sync' }

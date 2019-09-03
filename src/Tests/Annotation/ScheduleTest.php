@@ -3,12 +3,11 @@
 namespace Glooby\TaskBundle\Tests\Annotation\Schedule;
 
 use Glooby\TaskBundle\Annotation\Schedule;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @author Emil Kilhage
  */
-class ScheduleTest extends TestCase
+class ScheduleTest extends \PHPUnit_Framework_TestCase
 {
     public function testSimple()
     {
@@ -41,7 +40,7 @@ class ScheduleTest extends TestCase
 
     public function testParamsNonArray()
     {
-        $this->expectException('\InvalidArgumentException');
+        $this->setExpectedException('\InvalidArgumentException');
 
         new Schedule([
             'interval' => '@daily',
@@ -52,28 +51,28 @@ class ScheduleTest extends TestCase
 
     public function testInvalidProperty()
     {
-        $this->expectException('\InvalidArgumentException');
+        $this->setExpectedException('\InvalidArgumentException');
 
         new Schedule(['fooo' => '@daily']);
     }
 
     public function testInvalidInterval()
     {
-        $this->expectException('\InvalidArgumentException');
+        $this->setExpectedException('\InvalidArgumentException');
 
         new Schedule(['interval' => 'fdsfds fds']);
     }
 
     public function testMissingInvalid()
     {
-        $this->expectException('\InvalidArgumentException');
+        $this->setExpectedException('\InvalidArgumentException');
 
         new Schedule([]);
     }
 
     public function testInvalidTimeout()
     {
-        $this->expectException('\InvalidArgumentException');
+        $this->setExpectedException('\InvalidArgumentException');
 
         new Schedule(['interval' => '@daily', 'timeout' => 'x']);
     }

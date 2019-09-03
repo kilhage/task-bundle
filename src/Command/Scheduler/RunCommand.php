@@ -5,12 +5,20 @@ namespace Glooby\TaskBundle\Command\Scheduler;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @author Emil Kilhage
  */
 class RunCommand extends ContainerAwareCommand
 {
+    private $container;
+
+    public function __construct(ContainerInterface $container){
+        parent::__construct();
+        $this->container = $container;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -24,14 +32,14 @@ class RunCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $runner = $this->getContainer()->get('glooby_task.queue_processor');
+        $runner = $this->container->get('glooby_task.queue_processor');
         $runner->setOutput($output);
         $runner->process();
 
-        $monitor = $this->getContainer()->get('glooby_task.queue_monitor');
+        $monitor = $this->container->get('glooby_task.queue_monitor');
         $monitor->monitor();
 
-        $scheduler = $this->getContainer()->get('glooby_task.queue_scheduler');
+        $scheduler = $this->container->get('glooby_task.queue_scheduler');
         $scheduler->schedule();
     }
 }
