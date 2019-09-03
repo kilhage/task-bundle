@@ -3,11 +3,12 @@
 namespace Glooby\TaskBundle\Tests\Annotation\Schedule;
 
 use Glooby\TaskBundle\Annotation\Schedule;
+use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 /**
  * @author Emil Kilhage
  */
-class ScheduleTest extends \PHPUnit_Framework_TestCase
+class ScheduleTest extends TestCase
 {
     public function testSimple()
     {
@@ -40,7 +41,7 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
 
     public function testParamsNonArray()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException('\InvalidArgumentException');
 
         new Schedule([
             'interval' => '@daily',
@@ -51,28 +52,28 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidProperty()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException('\InvalidArgumentException');
 
         new Schedule(['fooo' => '@daily']);
     }
 
     public function testInvalidInterval()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException('\InvalidArgumentException');
 
         new Schedule(['interval' => 'fdsfds fds']);
     }
 
     public function testMissingInvalid()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException('\InvalidArgumentException');
 
         new Schedule([]);
     }
 
     public function testInvalidTimeout()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException('\InvalidArgumentException');
 
         new Schedule(['interval' => '@daily', 'timeout' => 'x']);
     }
