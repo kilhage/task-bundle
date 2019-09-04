@@ -24,7 +24,8 @@
     "require-dev": {
         "phpspec/prophecy": "~1.8",
         "php-coveralls/php-coveralls": "~2.1",
-        "symfony/phpunit-bridge": "^4.3"
+        "symfony/phpunit-bridge": "^4.3",
+        "phpunit/phpunit": "^7"
 
     }
 }
