@@ -2,3 +2,4 @@
 /build/
 /clover.cov
 .idea
+composer.lock
