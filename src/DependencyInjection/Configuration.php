@@ -17,8 +17,7 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('glooby_task');
+        $treeBuilder = new TreeBuilder('glooby_task');
 
         return $treeBuilder;
     }

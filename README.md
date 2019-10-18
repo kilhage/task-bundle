@@ -19,7 +19,7 @@ Installation
 Add the `glooby/task-bundle` package to your `require` section in the `composer.json` file.
 
 ``` bash
-$ composer require glooby/task-bundle ~1.0
+$ composer require glooby/task-bundle ~3.0
 ```
 
 Add the GloobyTaskBundle to your application's kernel:
@@ -28,11 +28,11 @@ Add the GloobyTaskBundle to your application's kernel:
 <?php
 public function registerBundles()
 {
-    $bundles = array(
+    $bundles = [
         // ...
         new Glooby\TaskBundle\GloobyTaskBundle(),
         // ...
-    );
+    ];
     ...
 }
 ```
@@ -40,7 +40,7 @@ public function registerBundles()
 Create this file /etc/cron.d/glooby_scheduler_run
 
 ``` bash
-* * * * *  nginx  cd /path/to/project && php app/console scheduler:run --env=prod &> /dev/null 2>&1
+* * * * *  nginx  cd /path/to/project && php bin/console scheduler:run --env=prod &> /dev/null 2>&1
 ```
 
 Documentation
@@ -68,7 +68,7 @@ example: src/Glooby/Api/TaskBundle/Task/PingTask.php
     }
 ```
 
-Add service
+Add a service for your task
 
 ```yaml
 services:
@@ -76,11 +76,11 @@ services:
         class: Glooby\TaskBundle\Task\PingTask
 ```
 
-#### Try run trough cli
+#### Try and run the task trough cli
 
 ```bash
 
-    $ app/console task:run glooby_task.ping
+    $ bin/console task:run glooby_task.ping
 
     "pong"
 
@@ -161,7 +161,6 @@ Here you have several shortcuts that you can use instead for most common use cas
 | @hourly         | 0 * * * *    |
 | @semi_hourly    | */30 * * * * |
 | @quarter_hourly | */15 * * * * |
-| @quarter_hourly | */15 * * * * |
 | *               | * * * * *    |
 
 ```php
@@ -212,7 +211,7 @@ class PingTask implements TaskInterface
 
 ```php
 
-app/console schedule:sync
+bin/console scheduler:run
 
 ```
 

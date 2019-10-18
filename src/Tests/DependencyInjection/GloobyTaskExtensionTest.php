@@ -3,13 +3,14 @@
 namespace Glooby\TaskBundle\Tests\DependencyInjection;
 
 use Glooby\TaskBundle\DependencyInjection\GloobyTaskExtension;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Yaml\Yaml;
 
 /**
  * @author Emil Kilhage
  */
-class GloobyTaskExtensionTest extends \PHPUnit_Framework_TestCase
+class GloobyTaskExtensionTest extends TestCase
 {
     public function testUnConfigured()
     {

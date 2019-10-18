@@ -6,12 +6,20 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @author Emil Kilhage
  */
 class SyncCommand extends ContainerAwareCommand
 {
+    private $container;
+
+    public function __construct(ContainerInterface $container){
+        parent::__construct();
+        $this->container = $container;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -27,7 +35,7 @@ class SyncCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $client = $this->getContainer()->get('glooby_task.schedule_synchronizer');
+        $client = $this->container->get('glooby_task.schedule_synchronizer');
         $client->setForce($input->getOption('force'));
         $client->sync();
     }

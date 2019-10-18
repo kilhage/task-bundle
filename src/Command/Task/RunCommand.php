@@ -4,17 +4,26 @@ namespace Glooby\TaskBundle\Command\Task;
 
 use Doctrine\ORM\NoResultException;
 use Glooby\TaskBundle\Task\TaskRunner;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @author Emil Kilhage
  */
-class RunCommand extends ContainerAwareCommand
+class RunCommand extends Command
 {
+    protected static $defaultName = 'task:run';
+    private $container;
+
+    public function __construct(ContainerInterface $container){
+        parent::__construct();
+        $this->container = $container;
+    }
+
     /**
      * Configures the current command.
      */
@@ -31,7 +40,7 @@ class RunCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $runner = $this->getContainer()->get('glooby_task.task_runner');
+        $runner =  $this->container->get('glooby_task.task_runner');
         $runner->setOutput($output);
 
         if ($input->getOption('id')) {
@@ -60,7 +69,7 @@ class RunCommand extends ContainerAwareCommand
      */
     protected function runId(InputInterface $input, TaskRunner $runner)
     {
-        $task = $this->getContainer()
+        $task = $this->container
             ->get('doctrine')
             ->getManager()
             ->getRepository('GloobyTaskBundle:QueuedTask')
