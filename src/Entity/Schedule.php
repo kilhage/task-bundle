@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(
  *   name="task_schedules",
- *   options={"collate"="utf8_swedish_ci"},
+ *   options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"},
  *   indexes={
  *     @ORM\Index(name="active_idx", columns={"active"})
  *   }
