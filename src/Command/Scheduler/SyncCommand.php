@@ -38,5 +38,8 @@ class SyncCommand extends Command
         $client = $this->container->get('glooby_task.schedule_synchronizer');
         $client->setForce($input->getOption('force'));
         $client->sync();
+
+        // TODO add logging (example if an error occurs) - and return zero
+        return 1;
     }
 }

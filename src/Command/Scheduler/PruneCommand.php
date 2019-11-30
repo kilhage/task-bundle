@@ -41,5 +41,8 @@ class PruneCommand extends Command
         } else {
             $pruner->run();
         }
+
+        // TODO add logging (example if an error occurs) - and return zero
+        return 1;
     }
 }

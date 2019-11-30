@@ -60,6 +60,8 @@ class RunCommand extends Command
                 $output->writeln($response);
             }
         }
+
+        return 1;
     }
 
     /**

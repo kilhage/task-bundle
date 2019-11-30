@@ -41,5 +41,8 @@ class RunCommand extends Command
 
         $scheduler = $this->container->get('glooby_task.queue_scheduler');
         $scheduler->schedule();
+
+        // TODO add logging (example if an error occurs) - and return zero
+        return 1;
     }
 }
