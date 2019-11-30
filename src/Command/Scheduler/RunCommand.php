@@ -2,7 +2,7 @@
 
 namespace Glooby\TaskBundle\Command\Scheduler;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * @author Emil Kilhage
  */
-class RunCommand extends ContainerAwareCommand
+class RunCommand extends Command
 {
     private $container;
 
@@ -41,5 +41,8 @@ class RunCommand extends ContainerAwareCommand
 
         $scheduler = $this->container->get('glooby_task.queue_scheduler');
         $scheduler->schedule();
+
+        // TODO add logging (example if an error occurs) - and return zero
+        return 1;
     }
 }
