@@ -2,7 +2,7 @@
 
 namespace Glooby\TaskBundle\Command\Scheduler;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * @author Emil Kilhage
  */
-class SyncCommand extends ContainerAwareCommand
+class SyncCommand extends Command
 {
     private $container;
 
