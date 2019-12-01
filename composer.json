@@ -18,6 +18,7 @@
     "require": {
         "php": ">=7.1",
         "symfony/framework-bundle": "~4.3",
+        "symfony/process": "^4.3",
         "doctrine/orm": "~2.6",
         "dragonmantank/cron-expression": "~2.0"
     },
