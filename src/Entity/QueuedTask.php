@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(
  *   name="task_queue",
- *   options={"collate"="utf8_swedish_ci"},
+ *   options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"},
  *   indexes={
  *     @ORM\Index(name="execute_at_idx", columns={"execute_at"}),
  *     @ORM\Index(name="status_idx",     columns={"status"}),
